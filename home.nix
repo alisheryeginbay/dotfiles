@@ -34,6 +34,8 @@
     bun
     fnm
     uv
+    ruff
+    ty
     lua-language-server
     luarocks
     oxfmt
