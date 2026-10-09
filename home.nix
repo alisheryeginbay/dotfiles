@@ -210,7 +210,12 @@
   launchd.agents.emacs = {
     enable = true;
     config = {
-      ProgramArguments = [ "${config.programs.emacs.finalPackage}/bin/emacs" "--fg-daemon" ];
+      # Run the binary inside Emacs.app so macOS treats the daemon as
+      # org.gnu.Emacs and applies its per-app defaults (AppleFontSmoothing).
+      ProgramArguments = [
+        "${config.programs.emacs.finalPackage}/Applications/Emacs.app/Contents/MacOS/Emacs"
+        "--fg-daemon"
+      ];
       RunAtLoad = true;
       KeepAlive = true;
       StandardOutPath = "/tmp/emacs-daemon.out.log";
