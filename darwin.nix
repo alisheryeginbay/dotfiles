@@ -26,6 +26,24 @@
   programs.fish.enable = true;
   environment.shells = [ pkgs.fish ];
 
+  # Runs as root from the read-only store, so the standard account can't swap
+  # what root runs. Needs the Karabiner VirtualHIDDevice driver (from the
+  # Karabiner-Elements install) and Input Monitoring permission for the binary,
+  # which has to be granted again whenever the kanata store path changes.
+  launchd.daemons.kanata.serviceConfig = {
+    ProgramArguments = [
+      "${pkgs.kanata}/bin/kanata"
+      "--nodelay"
+      "-c"
+      "${./config/kanata.kbd}"
+    ];
+    RunAtLoad = true;
+    KeepAlive = true;
+    ThrottleInterval = 5;
+    StandardOutPath = "/Library/Logs/kanata.log";
+    StandardErrorPath = "/Library/Logs/kanata.log";
+  };
+
   homebrew = {
     enable = true;
     # Unlisted casks are left alone for now; switch to "uninstall" once the
