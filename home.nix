@@ -36,6 +36,7 @@
     uv
     ruff
     ty
+    shfmt
     lua-language-server
     luarocks
     oxfmt
