@@ -42,12 +42,15 @@
       "tree-sitter"
     ];
 
+    # brew runs as alisher (non-admin), so it can't run .pkg installers or add
+    # apps to /Applications. Listed casks must already be installed/adopted;
+    # .pkg-based apps (Karabiner-Elements, R, MacTeX, Adobe Digital Editions)
+    # stay manual.
     casks = [
       # core
       "1password"
       "raycast"
       "ghostty"
-      "karabiner-elements" # provides the driver kanata needs
 
       # browsers
       "helium-browser"
@@ -60,14 +63,9 @@
       "figma"
       "zotero"
       "anki"
-      "calibre"
-      "adobe-digital-editions"
-      "r-app"
-      "mactex"
       "emacs-plus-app@master"
 
       # utilities
-      "balenaetcher"
       "gpg-suite"
 
       # fonts
