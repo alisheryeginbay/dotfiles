@@ -130,6 +130,16 @@
     };
   };
 
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    settings."github.com" = {
+      IdentityFile = "~/.ssh/git";
+      AddKeysToAgent = "yes";
+      UseKeychain = "yes";
+    };
+  };
+
   programs.gh = {
     enable = true;
     settings = {
