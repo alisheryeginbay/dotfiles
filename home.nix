@@ -74,6 +74,8 @@
   home.sessionPath = [
     "$HOME/.bun/bin"
     "$HOME/.local/bin"
+    "/Library/TeX/texbin" # MacTeX: latexmk, digestif
+    "/usr/local/MacGPG2/bin" # GPG Suite
   ];
   # Appended to $PATH itself so Nix-provided tools take precedence over Homebrew's.
   programs.fish.loginShellInit = ''
@@ -140,6 +142,81 @@
     config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/nvim";
 
   home.file.".tmux.conf".source = ./config/tmux.conf;
+
+  programs.emacs = {
+    enable = true;
+    package = pkgs.emacs;
+    extraPackages = epkgs: with epkgs; [
+      # evil
+      evil
+      evil-collection
+      evil-nerd-commenter
+      evil-mc
+      general
+      disable-mouse
+
+      # completion
+      vertico
+      orderless
+      marginalia
+      consult
+      corfu
+      cape
+
+      # editing
+      apheleia
+      olivetti
+      jinx
+      mw-thesaurus
+      pdf-tools
+      exec-path-from-shell
+      magit
+
+      # languages
+      eldoc-box
+      code-cells
+      pet
+      ess
+      auctex
+      cdlatex
+      (treesit-grammars.with-grammars (g: with g; [
+        tree-sitter-bash
+        tree-sitter-markdown
+        tree-sitter-markdown-inline
+        tree-sitter-rust
+      ]))
+
+      # org
+      org-roam
+      org-super-agenda
+      org-edna
+      org-noter
+      citar
+    ];
+  };
+
+  # Config is versioned here; everything else in ~/.config/emacs (elpa,
+  # caches, org-roam.db, secrets.el, custom.el) stays local state.
+  # Out-of-store links keep the files editable from Emacs.
+  xdg.configFile."emacs/early-init.el".source =
+    config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/emacs/early-init.el";
+  xdg.configFile."emacs/init.el".source =
+    config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/emacs/init.el";
+  xdg.configFile."emacs/lisp".source =
+    config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/emacs/lisp";
+  xdg.configFile."emacs/dict".source =
+    config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/emacs/dict";
+
+  launchd.agents.emacs = {
+    enable = true;
+    config = {
+      ProgramArguments = [ "${config.programs.emacs.finalPackage}/bin/emacs" "--fg-daemon" ];
+      RunAtLoad = true;
+      KeepAlive = true;
+      StandardOutPath = "/tmp/emacs-daemon.out.log";
+      StandardErrorPath = "/tmp/emacs-daemon.err.log";
+    };
+  };
 
   # Personal dictionary; out-of-store so spell checkers can add words.
   xdg.configFile."enchant/en_US.dic".source =

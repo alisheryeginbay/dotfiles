@@ -92,14 +92,8 @@ in
     # list is complete.
     onActivation.cleanup = "none";
 
-    taps = [ "d12frosted/emacs-plus" ];
-
     brews = [
       "mole" # nixpkgs' mole is a different program
-      # Kept until emacs is migrated.
-      "enchant"
-      "hunspell"
-      "tree-sitter"
     ];
 
     # brew runs as alisher (non-admin), so it can't run .pkg installers or add
@@ -120,7 +114,6 @@ in
       # work / study
       "figma"
       "zotero" # nixpkgs build is broken on darwin
-      "emacs-plus-app@master"
 
       # utilities
       "gpg-suite"
