@@ -95,6 +95,35 @@ in
     StandardErrorPath = "/Library/Logs/kanata.log";
   };
 
+  # Written to alisher's preferences by the admin rebuild; the Dock may need a
+  # logout to pick up changes.
+  system.defaults = {
+    dock = {
+      orientation = "left";
+      autohide = true;
+      tilesize = 44;
+      magnification = false;
+      wvous-br-corner = 1; # bottom-right hot corner: disabled
+      persistent-apps = [
+        "/Applications/Helium.app"
+        "/Users/alisher/Applications/Home Manager Apps/Ghostty.app"
+        "/Users/alisher/Applications/Home Manager Apps/Emacs.app"
+        "/Users/alisher/Applications/Home Manager Apps/Anki.app"
+      ];
+    };
+
+    WindowManager.GloballyEnabled = false; # Stage Manager off
+
+    NSGlobalDomain = {
+      AppleMeasurementUnits = "Centimeters";
+      AppleMetricUnits = 1;
+      AppleTemperatureUnit = "Celsius";
+    };
+
+    # Thinner text in Emacs (the daemon runs inside Emacs.app for this).
+    CustomUserPreferences."org.gnu.Emacs".AppleFontSmoothing = 0;
+  };
+
   homebrew = {
     enable = true;
     # Unlisted casks are left alone for now; switch to "uninstall" once the
