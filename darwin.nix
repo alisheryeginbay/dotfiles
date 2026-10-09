@@ -50,7 +50,6 @@
       # core
       "1password"
       "raycast"
-      "ghostty"
 
       # browsers
       "helium-browser"

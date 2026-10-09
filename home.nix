@@ -67,7 +67,6 @@
   home.sessionPath = [
     "$HOME/.bun/bin"
     "$HOME/.local/bin"
-    "/Applications/Ghostty.app/Contents/MacOS"
   ];
   # Appended to $PATH itself so Nix-provided tools take precedence over Homebrew's.
   programs.fish.loginShellInit = ''
@@ -116,7 +115,7 @@
 
   programs.ghostty = {
     enable = true;
-    package = null; # installed as a Homebrew cask
+    package = pkgs.ghostty-bin;
     settings = {
       shell-integration = "fish";
       shell-integration-features = "sudo,ssh-env";
@@ -126,7 +125,6 @@
       window-save-state = "always";
       macos-option-as-alt = true;
       theme = "dark:Modus Vivendi,light:Modus Operandi";
-      auto-update-channel = "stable";
     };
   };
 
