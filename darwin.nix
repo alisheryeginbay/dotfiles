@@ -1,5 +1,23 @@
 { pkgs, self, ... }:
 
+let
+  # nixpkgs' 1.12.0 can't talk to Karabiner VirtualHIDDevice v8 (support landed
+  # in 1.13). Drop this override once nixpkgs ships kanata >= 1.13.
+  kanata = pkgs.kanata.overrideAttrs (old: rec {
+    version = "1.13.0-prerelease-2";
+    src = pkgs.fetchFromGitHub {
+      owner = "jtroo";
+      repo = "kanata";
+      rev = "0d7f4e4d3995dc543e6ecd7e11d4b3802d9585ca";
+      hash = "sha256-Mh8+GzN2Nu2SEKIynbt5b6BpL9fAxUaH4VGI1Da4CqY=";
+    };
+    cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
+      inherit src;
+      name = "kanata-${version}";
+      hash = "sha256-moRxx2X+mmJVtgopsTtN5s7jRyZ1Vz0F1qnFH/5SQZg=";
+    };
+  });
+in
 {
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
@@ -32,7 +50,7 @@
   # which has to be granted again whenever the kanata store path changes.
   launchd.daemons.kanata.serviceConfig = {
     ProgramArguments = [
-      "${pkgs.kanata}/bin/kanata"
+      "${kanata}/bin/kanata"
       "--nodelay"
       "-c"
       "${./config/kanata.kbd}"
