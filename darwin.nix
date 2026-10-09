@@ -47,13 +47,34 @@ in
   programs.fish.enable = true;
   environment.shells = [ pkgs.fish ];
 
-  # Runs as root from the read-only store, so the standard account can't swap
-  # what root runs. Needs the Karabiner VirtualHIDDevice driver (from the
-  # Karabiner-Elements install) and Input Monitoring permission for the binary,
-  # which has to be granted again whenever the kanata store path changes.
+  # kanata needs the Karabiner VirtualHIDDevice driver (from the
+  # Karabiner-Elements install) and Input Monitoring permission. macOS ties
+  # that permission to the binary's signature, and every store path is a new
+  # ad-hoc signature. So activation copies kanata to a fixed root-owned path
+  # and signs it with a local certificate (scripts/create-kanata-cert.sh);
+  # the permission then survives kanata updates.
+  system.activationScripts.extraActivation.text = ''
+    kanataDir="/Library/Application Support/kanata"
+    if [ "$(cat "$kanataDir/source" 2>/dev/null)" != "${kanata}" ]; then
+      echo "installing kanata from ${kanata}..." >&2
+      install -d -o root -g wheel -m 755 "$kanataDir"
+      install -o root -g wheel -m 755 ${kanata}/bin/kanata "$kanataDir/kanata.new"
+      if /usr/bin/codesign --force --sign kanata-local --identifier org.nixos.kanata \
+          --keychain /Library/Keychains/System.keychain "$kanataDir/kanata.new"; then
+        mv -f "$kanataDir/kanata.new" "$kanataDir/kanata"
+        echo "${kanata}" > "$kanataDir/source"
+        # The plist doesn't change on a binary-only update, so restart by hand.
+        launchctl kickstart -k system/org.nixos.kanata 2>/dev/null || true
+      else
+        echo "warning: kanata-local signing identity missing; run scripts/create-kanata-cert.sh" >&2
+        rm -f "$kanataDir/kanata.new"
+      fi
+    fi
+  '';
+
   launchd.daemons.kanata.serviceConfig = {
     ProgramArguments = [
-      "${kanata}/bin/kanata"
+      "/Library/Application Support/kanata/kanata"
       "--nodelay"
       "-c"
       "${./config/kanata.kbd}"
