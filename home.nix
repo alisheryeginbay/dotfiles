@@ -114,6 +114,22 @@
     };
   };
 
+  programs.ghostty = {
+    enable = true;
+    package = null; # installed as a Homebrew cask
+    settings = {
+      shell-integration = "fish";
+      shell-integration-features = "sudo,ssh-env";
+      font-family = "Aporetic Sans Mono";
+      font-size = 16;
+      keybind = [ "shift+enter=text:\\n" ];
+      window-save-state = "always";
+      macos-option-as-alt = true;
+      theme = "dark:Modus Vivendi,light:Modus Operandi";
+      auto-update-channel = "stable";
+    };
+  };
+
   # Out-of-store symlink so lazy.nvim can still write lazy-lock.json.
   xdg.configFile."nvim".source =
     config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/nvim";
