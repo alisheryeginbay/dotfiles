@@ -55,20 +55,15 @@
       "helium-browser"
 
       # communication
-      "slack"
       "discord"
 
       # work / study
       "figma"
-      "zotero"
-      "anki"
+      "zotero" # nixpkgs build is broken on darwin
       "emacs-plus-app@master"
 
       # utilities
       "gpg-suite"
-
-      # fonts
-      "font-aporetic"
     ];
   };
 }

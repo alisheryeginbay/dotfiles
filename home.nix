@@ -39,6 +39,13 @@
     enchant
     hunspell
 
+    # apps (copied to ~/Applications/Home Manager Apps)
+    anki-bin
+    slack
+
+    # fonts
+    aporetic
+
     # misc
     restic
   ];

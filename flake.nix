@@ -24,7 +24,11 @@
     # User config; no admin needed:
     # $ home-manager switch --flake .#alisher
     homeConfigurations.alisher = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfreePredicate = pkg:
+          builtins.elem (nixpkgs.lib.getName pkg) [ "slack" ];
+      };
       modules = [ ./home.nix ];
     };
   };
