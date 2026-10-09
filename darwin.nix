@@ -23,6 +23,9 @@ in
   # $ nix-env -qaP | grep wget
   environment.systemPackages =
     [ pkgs.vim
+      # Ghostty points TERMINFO into alisher's private ~/Applications, so other
+      # users (e.g. after `su`) need xterm-ghostty installed system-wide.
+      pkgs.ghostty-bin.terminfo
     ];
 
   # Necessary for using flakes on this system.
