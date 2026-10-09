@@ -140,4 +140,13 @@
     config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/nvim";
 
   home.file.".tmux.conf".source = ./config/tmux.conf;
+
+  # Personal dictionary; out-of-store so spell checkers can add words.
+  xdg.configFile."enchant/en_US.dic".source =
+    config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/enchant/en_US.dic";
+
+  xdg.configFile."1Password/ssh/agent.toml".text = ''
+    [[ssh-keys]]
+    vault = "Personal"
+  '';
 }
