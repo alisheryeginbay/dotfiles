@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   home.username = "alisher";
@@ -7,6 +7,19 @@
 
   # Provides the `home-manager` command.
   programs.home-manager.enable = true;
+
+  # Expire old home-manager generations so the system GC can collect them.
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+  };
+  # The module passes `nix.gc.options` as a single argv element on darwin,
+  # which nix-collect-garbage rejects, so set the arguments directly.
+  launchd.agents.nix-gc.config.ProgramArguments = lib.mkForce [
+    "${pkgs.nix}/bin/nix-collect-garbage"
+    "--delete-older-than"
+    "30d"
+  ];
 
   home.packages = with pkgs; [
     # shell utilities
