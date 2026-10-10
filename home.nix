@@ -51,6 +51,21 @@
     djvulibre
     mpv
 
+    # LaTeX for org previews/export and the occasional paper. Add packages
+    # here when a document fails with "File `foo.sty' not found".
+    (texliveSmall.withPackages (ps: with ps; [
+      latexmk
+      dvisvgm # org-preview-latex-default-process
+      digestif # LSP for eglot
+      # org-latex-default-packages-alist beyond scheme-small
+      wrapfig
+      ulem
+      capt-of
+      # papers
+      biblatex
+      biber
+    ]))
+
     # spelling
     enchant
     hunspell
@@ -90,7 +105,6 @@
   home.sessionPath = [
     "$HOME/.bun/bin"
     "$HOME/.local/bin"
-    "/Library/TeX/texbin" # MacTeX: latexmk, digestif
     "/usr/local/MacGPG2/bin" # GPG Suite
   ];
   # Appended to $PATH itself so Nix-provided tools take precedence over Homebrew's.
