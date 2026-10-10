@@ -66,6 +66,15 @@
       biber
     ]))
 
+    # R plus the "recommended" packages the official installer bundles.
+    # Add CRAN packages to the list (install.packages() won't persist).
+    (rWrapper.override {
+      packages = with rPackages; [
+        boot class cluster codetools foreign KernSmooth lattice MASS Matrix
+        mgcv nlme nnet rpart spatial survival
+      ];
+    })
+
     # spelling
     enchant
     hunspell
