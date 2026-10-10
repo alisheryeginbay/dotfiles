@@ -152,9 +152,6 @@ in
       # work / study
       "figma"
       "zotero" # nixpkgs build is broken on darwin
-
-      # utilities
-      "gpg-suite"
     ];
   };
 }

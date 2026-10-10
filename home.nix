@@ -98,7 +98,6 @@
       set -gx BUN_INSTALL $HOME/.bun
     '';
     interactiveShellInit = ''
-      set -gx GPG_TTY (tty)
       fnm env --use-on-cd --shell fish | source
     '';
     shellAliases = {
@@ -114,7 +113,6 @@
   home.sessionPath = [
     "$HOME/.bun/bin"
     "$HOME/.local/bin"
-    "/usr/local/MacGPG2/bin" # GPG Suite
   ];
   # Appended to $PATH itself so Nix-provided tools take precedence over Homebrew's.
   programs.fish.loginShellInit = ''
