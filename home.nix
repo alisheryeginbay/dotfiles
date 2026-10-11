@@ -88,6 +88,7 @@
 
     # misc
     restic
+    rage
   ];
 
   programs.fish = {
