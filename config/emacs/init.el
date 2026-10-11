@@ -13,6 +13,9 @@
 (dolist (module '(editor projects langs latex-config org-config keybindings))
   (load (symbol-name module)))
 
+;; Private config lives with the data, outside this (public) repo.
+(load (expand-file-name "private.el" org-directory) t)
+
 ;; Customize writes here instead of into this (versioned) file.
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file t)
