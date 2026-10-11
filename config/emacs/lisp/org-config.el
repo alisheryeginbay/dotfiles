@@ -217,6 +217,11 @@ way."
   ;; Entries with `:STYLE: habit' get a consistency graph in the agenda.
   (add-to-list 'org-modules 'org-habit)
   (require 'org-habit)
+  ;; The graph is drawn over the line from this column, so start it past
+  ;; most headings, and keep it short enough to fit in ~100 columns.
+  (setq org-habit-graph-column 70
+        org-habit-preceding-days 14
+        org-habit-following-days 3)
   (setq org-agenda-files (mapcar #'+gtd-file '("inbox.org" "gtd.org")))
   ;; Refile anywhere in the GTD directory, not just the agenda files, so
   ;; anything added later is a target without extra config.
