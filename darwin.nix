@@ -95,6 +95,11 @@ in
     StandardErrorPath = "/Library/Logs/kanata.log";
   };
 
+  # Open-source tailscaled as a root launchd daemon (no GUI app, which would
+  # need an admin install into /Applications). Log in once with
+  # `sudo tailscale up` from the admin account.
+  services.tailscale.enable = true;
+
   # Written to alisher's preferences by the admin rebuild; the Dock may need a
   # logout to pick up changes.
   system.defaults = {
