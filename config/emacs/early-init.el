@@ -2,6 +2,9 @@
 
 (setq package-enable-at-startup nil)
 
+;; The 800 KB default makes GC run constantly (~9% of a profiled agenda run).
+(setq gc-cons-threshold (* 64 1024 1024))
+
 (setq default-frame-alist
       '((tool-bar-lines . 0)
         (vertical-scroll-bars . nil)
