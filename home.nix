@@ -83,6 +83,34 @@
     # apps (copied to ~/Applications/Home Manager Apps)
     anki-bin
     slack
+    # Dock launcher: a new frame on the Emacs daemon (see launchd.agents.emacs).
+    # Emacs.app itself would start a separate, cold Emacs that Cmd-Q quits.
+    (pkgs.runCommand "emacs-client-app" { } ''
+      app="$out/Applications/Emacs Client.app/Contents"
+      mkdir -p "$app/MacOS" "$app/Resources"
+      cp ${config.programs.emacs.finalPackage}/Applications/Emacs.app/Contents/Resources/Emacs.icns "$app/Resources/"
+      cat > "$app/Info.plist" <<EOF
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+      <plist version="1.0">
+      <dict>
+        <key>CFBundleName</key><string>Emacs Client</string>
+        <key>CFBundleIdentifier</key><string>org.gnu.EmacsClient</string>
+        <key>CFBundleExecutable</key><string>emacs-client</string>
+        <key>CFBundleIconFile</key><string>Emacs.icns</string>
+        <key>CFBundlePackageType</key><string>APPL</string>
+      </dict>
+      </plist>
+      EOF
+      cat > "$app/MacOS/emacs-client" <<EOF
+      #!/bin/sh
+      # -a "": start a daemon if the launchd one isn't up. The -e raises the
+      # new frame, which otherwise can open behind the current app.
+      exec ${config.programs.emacs.finalPackage}/bin/emacsclient -c -n -a "" \
+        -e '(select-frame-set-input-focus (selected-frame))'
+      EOF
+      chmod +x "$app/MacOS/emacs-client"
+    '')
 
     # fonts
     aporetic
