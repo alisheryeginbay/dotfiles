@@ -27,6 +27,20 @@
 ;; move by screen line rather than by logical line.
 (add-hook 'org-mode-hook #'visual-line-mode)
 
+;; `a' on the last visible character of a link steps into the hidden `]]'.
+;; Emacs then pushes point to the end of the hidden stretch, which runs onto
+;; the next line when it continues into a folded subtree. Stop at the end of
+;; the link instead (Org makes it rear-nonsticky, so typing lands outside it).
+(defun +evil-append-past-hidden-link (&rest _)
+  "Make `a' at the end of a link land right after it, not on the next line."
+  (when (and (derived-mode-p 'org-mode) (invisible-p (point)))
+    (goto-char (next-single-char-property-change
+                (point) 'invisible nil (line-end-position)))
+    (setq disable-point-adjustment t)))
+
+(with-eval-after-load 'evil
+  (advice-add 'evil-append :after #'+evil-append-past-hidden-link))
+
 (defvar +gtd-directory (expand-file-name "gtd/" org-directory)
   "Directory holding the GTD org files (inbox, gtd, someday).")
 
