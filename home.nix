@@ -279,7 +279,6 @@
 
       # org
       org-roam
-      org-super-agenda
       org-edna
       org-noter
       citar

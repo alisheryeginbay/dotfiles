@@ -233,7 +233,6 @@ way."
         org-use-effective-time t))
 
 (with-eval-after-load 'org-agenda
-  (require 'org-super-agenda)
   (add-hook 'org-agenda-mode-hook (lambda () (display-line-numbers-mode -1)))
   ;; A PROJ is stuck when nothing beneath it is a NEXT action or a WAIT.
   (setq org-stuck-projects '("/PROJ" ("NEXT" "WAIT") nil ""))
