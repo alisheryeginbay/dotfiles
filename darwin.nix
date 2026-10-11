@@ -112,7 +112,7 @@ in
       persistent-apps = [
         "/Applications/Helium.app"
         "/Users/alisher/Applications/Home Manager Apps/Ghostty.app"
-        "/Users/alisher/Applications/Home Manager Apps/Emacs.app"
+        "/Users/alisher/Applications/Home Manager Apps/Emacs Client.app"
         "/Users/alisher/Applications/Home Manager Apps/Anki.app"
       ];
     };
