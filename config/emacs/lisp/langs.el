@@ -67,4 +67,15 @@
   (ess-ask-for-ess-directory nil)
   (ess-use-flymake nil))
 
+(add-to-list 'treesit-language-source-alist
+             '(markdown "https://github.com/tree-sitter-grammars/tree-sitter-markdown"
+                        "v0.4.1" "tree-sitter-markdown/src"))
+(add-to-list 'treesit-language-source-alist
+             '(markdown-inline "https://github.com/tree-sitter-grammars/tree-sitter-markdown"
+                               "v0.4.1" "tree-sitter-markdown-inline/src"))
+
+(use-package markdown-ts-mode
+  :ensure nil                      ; built in, nothing to download
+  :mode ("\\.md\\'" "\\.markdown\\'"))
+
 (provide 'langs)
