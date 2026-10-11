@@ -89,6 +89,19 @@
     # misc
     restic
     rage
+    (buildGoModule rec {
+      pname = "tle";
+      version = "1.2.0";
+      src = fetchFromGitHub {
+        owner = "drand";
+        repo = "tlock";
+        rev = "v${version}";
+        hash = "sha256-3qO5xGcKj7m033B/lWoeewUf9XbiY+GrQFBBuymOXzo=";
+      };
+      vendorHash = "sha256-gy2aPcOrhN1M27qYiqRvNjy987Oh7/MHMvbRLEpV3Iw=";
+      subPackages = [ "cmd/tle" ];
+      meta.mainProgram = "tle";
+    })
   ];
 
   programs.fish = {
