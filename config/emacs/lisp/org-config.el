@@ -260,10 +260,6 @@ way."
 	   ((agenda "" ((org-agenda-span 1)
 			(org-agenda-overriding-header "")))
 	    (todo "NEXT" ((org-agenda-overriding-header "Next actions")))
-	    (tags-todo "+PRIORITY=\"A\""
-                       ((org-agenda-overriding-header "High priority")
-			(org-agenda-skip-function
-			 '(org-agenda-skip-entry-if 'todo '("DONE" "CANCELLED")))))
 	    (stuck "" ((org-agenda-overriding-header "Stuck projects"))))
 	   ;; Unprocessed inbox items wait for triage instead of cluttering the day.
 	   ((org-agenda-files (remove (+gtd-file "inbox.org") org-agenda-files))))
