@@ -3,6 +3,11 @@
 ;; Org / GTD
 (setq org-directory "~/org/")
 
+;; Org loads these the first time an org buffer opens (e.g. the first agenda).
+;; The default list drags in Gnus and EWW (~1s together) for link types
+;; that aren't used here. Plain `setq' so nothing loads before it's needed.
+(setq org-modules '(org-habit ol-doi ol-bibtex ol-docview ol-info))
+
 ;; LaTeX fragments. dvisvgm gives crisp previews at any zoom; the default
 ;; :scale 1.0 renders tiny against a 150-height default face, and
 ;; `org-format-latex-options' already inherits theme colours via the `default'
@@ -328,6 +333,15 @@ way."
    'org-babel-load-languages
    '((python . t)
      (R . t))))
+
+;; The daemon is idle after boot: open the agenda files then, so the first
+;; agenda doesn't pay for loading org-agenda and visiting them.
+(when (daemonp)
+  (run-with-idle-timer
+   2 nil (lambda ()
+           (with-demoted-errors "Org warm-up: %S"
+             (require 'org-agenda)
+             (mapc #'find-file-noselect (org-agenda-files))))))
 
 (defun my/org-archive-finished ()
   "Archive all DONE and KILL entries in the current file."
