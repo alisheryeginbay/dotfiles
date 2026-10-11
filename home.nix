@@ -34,6 +34,7 @@
     bun
     fnm
     uv
+    rustup
     ruff
     ty
     shfmt
@@ -126,6 +127,7 @@
 
   home.sessionPath = [
     "$HOME/.bun/bin"
+    "$HOME/.cargo/bin"
     "$HOME/.local/bin"
   ];
   # Appended to $PATH itself so Nix-provided tools take precedence over Homebrew's.
