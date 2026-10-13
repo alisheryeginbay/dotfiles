@@ -78,6 +78,7 @@
       packages = with rPackages; [
         boot class cluster codetools foreign KernSmooth lattice MASS Matrix
         mgcv nlme nnet rpart spatial survival
+        ggplot2
       ];
     })
 
