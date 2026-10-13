@@ -1,6 +1,7 @@
 #!/bin/sh
 # Create the self-signed code-signing identity that darwin.nix uses to sign
-# kanata, so its Input Monitoring permission survives kanata updates.
+# kanata and skhd, so their Input Monitoring/Accessibility permissions survive
+# updates.
 # Run once as an admin: sudo sh scripts/create-kanata-cert.sh
 set -eu
 NAME=kanata-local

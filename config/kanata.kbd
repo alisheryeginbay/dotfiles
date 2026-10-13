@@ -12,7 +12,8 @@
   lctl lmet lalt           spc                 ralt rmet rctl
 )
 
-;; Plain QWERTY positions -- use this layer with the Russian and Korean input sources
+;; Plain QWERTY positions -- used with the Russian, Korean, Kazakh and Japanese
+;; input sources, and for English while learning Gallium
 (deflayer qwerty
   esc       brdn brup mctl lpad _    _    prev pp   next mute vold volu
   @grl       1    2    3    4    5    6    7    8    9    0    -    =    bspc
@@ -87,8 +88,16 @@
 (defalias
   ;; tap: backtick (grave), hold: toggle layer-switching layer while held
   grl (tap-hold 200 200 grv (layer-toggle layers))
-  gal (layer-switch gallium)
-  qwr (layer-switch qwerty)
+
+  ;; Language keys: switch the kanata layer and send F13-F17, which skhd
+  ;; (home.nix) turns into `macism <input source>`. kanata runs as root, so it
+  ;; can't change the user's input source itself.
+  en  (multi (layer-switch gallium) f13)
+  enq (multi (layer-switch qwerty) f13)
+  ru  (multi (layer-switch qwerty) f14)
+  ko  (multi (layer-switch qwerty) f15)
+  kk  (multi (layer-switch qwerty) f16)
+  ja  (multi (layer-switch qwerty) f17)
 
   ;; Caps Lock: tap = Escape (for evil), hold = Control (for Emacs chords).
   ;; tap-hold-press turns into Control as soon as another key is pressed,
@@ -99,12 +108,14 @@
   nav (layer-while-held nav)
 )
 
-;; Hold ` then press: 1 = QWERTY (Russian/Korean), 2 = Gallium (English)
+;; Hold ` then press (physical QWERTY positions):
+;;   1 = English (Gallium)   q = English (QWERTY)
+;;   2 = Russian   3 = Korean   4 = Kazakh   5 = Japanese (all QWERTY)
 ;; Caps Lock position here gives you a real Caps Lock if you ever need it
 (deflayer layers
   _         f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
-  _    @qwr @gal _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    @en  @ru  @ko  @kk  @ja  _    _    _    _    _    _    _    _
+  _    @enq _    _    _    _    _    _    _    _    _    _    _    _
   caps _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _              _              _    _    _

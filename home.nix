@@ -322,6 +322,23 @@
     };
   };
 
+  # Language keys: kanata (config/kanata.kbd) sends F13-F17 on ` + 1..5/q and
+  # switches its own layer; skhd switches the input source to match.
+  # Runs the copy darwin.nix installs and signs at a fixed path, so its
+  # Accessibility permission survives skhd updates.
+  services.skhd = {
+    enable = true;
+    config = ''
+      f13 : ${lib.getExe pkgs.macism} com.apple.keylayout.ABC
+      f14 : ${lib.getExe pkgs.macism} com.apple.keylayout.Russian
+      f15 : ${lib.getExe pkgs.macism} com.apple.inputmethod.Korean.2SetKorean
+      f16 : ${lib.getExe pkgs.macism} com.apple.keylayout.Kazakh
+      f17 : ${lib.getExe pkgs.macism} com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese
+    '';
+  };
+  launchd.agents.skhd.config.ProgramArguments =
+    lib.mkForce [ "/Library/Application Support/skhd/skhd" ];
+
   # Personal dictionary; out-of-store so spell checkers can add words.
   xdg.configFile."enchant/en_US.dic".source =
     config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/enchant/en_US.dic";

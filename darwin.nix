@@ -57,28 +57,35 @@ in
   environment.shells = [ pkgs.fish ];
 
   # kanata needs the Karabiner VirtualHIDDevice driver (from the
-  # Karabiner-Elements install) and Input Monitoring permission. macOS ties
-  # that permission to the binary's signature, and every store path is a new
-  # ad-hoc signature. So activation copies kanata to a fixed root-owned path
-  # and signs it with a local certificate (scripts/create-kanata-cert.sh);
-  # the permission then survives kanata updates.
+  # Karabiner-Elements install) and Input Monitoring permission; skhd (see
+  # home.nix) needs Accessibility. macOS ties those permissions to the
+  # binary's signature, and every store path is a new ad-hoc signature. So
+  # activation copies each binary to a fixed root-owned path and signs it with
+  # a local certificate (scripts/create-kanata-cert.sh); the permissions then
+  # survive updates.
   system.activationScripts.extraActivation.text = ''
-    kanataDir="/Library/Application Support/kanata"
-    if [ "$(cat "$kanataDir/source" 2>/dev/null)" != "${kanata}" ]; then
-      echo "installing kanata from ${kanata}..." >&2
-      install -d -o root -g wheel -m 755 "$kanataDir"
-      install -o root -g wheel -m 755 ${kanata}/bin/kanata "$kanataDir/kanata.new"
-      if /usr/bin/codesign --force --sign kanata-local --identifier org.nixos.kanata \
-          --keychain /Library/Keychains/System.keychain "$kanataDir/kanata.new"; then
-        mv -f "$kanataDir/kanata.new" "$kanataDir/kanata"
-        echo "${kanata}" > "$kanataDir/source"
-        # The plist doesn't change on a binary-only update, so restart by hand.
-        launchctl kickstart -k system/org.nixos.kanata 2>/dev/null || true
-      else
-        echo "warning: kanata-local signing identity missing; run scripts/create-kanata-cert.sh" >&2
-        rm -f "$kanataDir/kanata.new"
+    # installSigned NAME STORE-BINARY RESTART-TARGET
+    installSigned() {
+      dir="/Library/Application Support/$1"
+      if [ "$(cat "$dir/source" 2>/dev/null)" != "$2" ]; then
+        echo "installing $1 from $2..." >&2
+        install -d -o root -g wheel -m 755 "$dir"
+        install -o root -g wheel -m 755 "$2" "$dir/$1.new"
+        if /usr/bin/codesign --force --sign kanata-local --identifier "org.nixos.$1" \
+            --keychain /Library/Keychains/System.keychain "$dir/$1.new"; then
+          mv -f "$dir/$1.new" "$dir/$1"
+          echo "$2" > "$dir/source"
+          # The plist doesn't change on a binary-only update, so restart by hand.
+          launchctl kickstart -k "$3" 2>/dev/null || true
+        else
+          echo "warning: kanata-local signing identity missing; run scripts/create-kanata-cert.sh" >&2
+          rm -f "$dir/$1.new"
+        fi
       fi
-    fi
+    }
+    installSigned kanata ${kanata}/bin/kanata system/org.nixos.kanata
+    installSigned skhd ${pkgs.skhd}/bin/skhd \
+      "gui/$(id -u alisher)/org.nix-community.home.skhd"
   '';
 
   launchd.daemons.kanata.serviceConfig = {
