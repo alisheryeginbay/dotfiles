@@ -29,6 +29,7 @@
     eza
     ripgrep
     fastfetch
+    macism
 
     # dev
     bun
