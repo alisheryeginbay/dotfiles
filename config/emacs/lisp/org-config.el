@@ -27,6 +27,10 @@
 ;; move by screen line rather than by logical line.
 (add-hook 'org-mode-hook #'visual-line-mode)
 
+;; Keep src block bodies flush with `#+begin_src' instead of Org's extra
+;; 2-space offset; the language mode still handles indentation inside.
+(setq org-edit-src-content-indentation 0)
+
 ;; `a' on the last visible character of a link steps into the hidden `]]'.
 ;; Emacs then pushes point to the end of the hidden stretch, which runs onto
 ;; the next line when it continues into a folded subtree. Stop at the end of
