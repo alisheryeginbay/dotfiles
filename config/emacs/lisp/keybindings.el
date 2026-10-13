@@ -57,6 +57,15 @@
 
 (general-define-key
  :states '(normal visual)
+ :keymaps 'typst-ts-mode-map
+ :prefix "SPC m"
+ "c" '("compile" . typst-ts-compile)
+ "v" '("compile and view" . typst-ts-compile-and-preview)
+ "p" '("view" . typst-ts-preview)
+ "w" '("toggle watch" . typst-ts-watch-mode))
+
+(general-define-key
+ :states '(normal visual)
  :keymaps 'org-mode-map
  :prefix "SPC m"
  "l" '("toggle latex preview" . org-latex-preview))

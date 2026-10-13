@@ -67,6 +67,11 @@
       biber
     ]))
 
+    # Typst: compiler, language server (eglot) and formatter (apheleia).
+    typst
+    tinymist
+    typstyle
+
     # R plus the "recommended" packages the official installer bundles.
     # Add CRAN packages to the list (install.packages() won't persist).
     (rWrapper.override {
@@ -270,11 +275,13 @@
       ess
       auctex
       cdlatex
+      typst-ts-mode
       (treesit-grammars.with-grammars (g: with g; [
         tree-sitter-bash
         tree-sitter-markdown
         tree-sitter-markdown-inline
         tree-sitter-rust
+        tree-sitter-typst
       ]))
 
       # org
