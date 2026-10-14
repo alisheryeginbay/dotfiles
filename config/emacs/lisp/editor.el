@@ -108,10 +108,24 @@
   :config
   ;; epdfinfo is prebuilt by Nix, so this just activates pdf-tools.
   (pdf-tools-install :no-query)
+  ;; Upstream bug: `pdf-links-read-link-action' (F) calls
+  ;; `pdf-roll-page-overlay' unconditionally, but pdf-roll is only
+  ;; autoloaded via `pdf-view-roll-minor-mode'. Load it eagerly; outside
+  ;; roll mode it just finds the single-page overlay.
+  (require 'pdf-roll)
   (setq-default pdf-view-display-size 'fit-page)
   (setq pdf-view-use-scaling t          ; sharp rendering on HiDPI/Retina
         pdf-view-resize-factor 1.1
         pdf-annot-activate-created-annotations t)
+
+  ;; Link hints (F) are drawn by ImageMagick, whose Nix build finds no
+  ;; fontconfig config and so has no default font; name one explicitly.
+  ;; `magick' rather than the deprecated IMv7 `convert' alias.
+  (setq pdf-util-convert-program (executable-find "magick")
+        pdf-links-read-link-convert-commands
+        '("-font" "/System/Library/Fonts/Menlo.ttc"
+          "-pointsize" "%P" "-undercolor" "%f" "-fill" "%b"
+          "-draw" "text %X,%Y '%c'"))
 
   ;; Upstream bug: `pdf-view-new-window-function' calls
   ;; `image-mode-window-put' without its WINPROPS arg, so the new
