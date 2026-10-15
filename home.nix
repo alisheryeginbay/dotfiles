@@ -40,6 +40,7 @@
     ty
     shfmt
     lua-language-server
+    tree-sitter # nvim-treesitter (main) builds parsers with it
     luarocks
     oxfmt
     git-xet
