@@ -10,6 +10,8 @@ vim.opt.timeoutlen = 300
 
 vim.o.cmdheight = 1
 
+vim.opt.clipboard = 'unnamedplus'
+
 vim.opt.conceallevel = 0
 
 vim.diagnostic.config {
