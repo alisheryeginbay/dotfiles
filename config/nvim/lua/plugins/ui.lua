@@ -10,6 +10,7 @@ return {
     },
     opts = {
       view = { side = 'left' },
+      filters = { git_ignored = false },
     },
   },
   {
