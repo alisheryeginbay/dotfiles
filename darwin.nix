@@ -153,6 +153,7 @@ in
     casks = [
       # core
       "1password"
+      "1password-cli"
       "raycast"
 
       # browsers
