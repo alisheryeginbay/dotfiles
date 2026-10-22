@@ -8,6 +8,16 @@ vim.opt.relativenumber = true
 
 vim.opt.timeoutlen = 300
 
+-- Move by wrapped screen lines; a count (e.g. 5j) still jumps real lines,
+-- so relative line numbers keep working.
+for _, key in ipairs { 'j', 'k', '<Down>', '<Up>' } do
+  local g = 'g' .. key
+  vim.keymap.set({ 'n', 'x' }, key, function()
+    return vim.v.count == 0 and g or key
+  end, { expr = true, silent = true })
+end
+vim.opt.breakindent = true
+
 vim.o.cmdheight = 1
 
 vim.opt.clipboard = 'unnamedplus'
