@@ -115,6 +115,7 @@ in
       autohide = true;
       tilesize = 44;
       magnification = false;
+      show-recents = false; # only the apps listed below
       wvous-br-corner = 1; # bottom-right hot corner: disabled
       persistent-apps = [
         "/Applications/Helium.app"
@@ -132,8 +133,20 @@ in
       AppleTemperatureUnit = "Celsius";
     };
 
-    # Thinner text in Emacs (the daemon runs inside Emacs.app for this).
-    CustomUserPreferences."org.gnu.Emacs".AppleFontSmoothing = 0;
+    CustomUserPreferences = {
+      # Thinner text in Emacs (the daemon runs inside Emacs.app for this).
+      "org.gnu.Emacs".AppleFontSmoothing = 0;
+
+      # Lock the Dock so it can only be changed here: no dragging apps on/off,
+      # and the matching Dock controls in System Settings are greyed out.
+      "com.apple.dock" = {
+        contents-immutable = true;
+        position-immutable = true;
+        size-immutable = true;
+        magnify-immutable = true;
+        autohide-immutable = true;
+      };
+    };
   };
 
   homebrew = {
