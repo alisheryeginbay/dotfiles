@@ -10,4 +10,6 @@ vim.opt.mouse = ''
 
 require 'config.lazy'
 
-vim.cmd([[colorscheme modus_operandi]])
+-- Picks Operandi or Vivendi from 'background', which Neovim detects from
+-- the terminal (and updates when Ghostty switches).
+vim.cmd([[colorscheme modus]])
