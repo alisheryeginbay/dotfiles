@@ -25,6 +25,7 @@
     # shell utilities
     neovim
     tmux
+    sesh # tmux session manager; picker on prefix+T (config/tmux.conf)
     bat
     eza
     ripgrep
@@ -251,6 +252,10 @@
     config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/nvim";
 
   home.file.".tmux.conf".source = ./config/tmux.conf;
+
+  # Out-of-store so preset edits apply without a rebuild.
+  xdg.configFile."sesh/sesh.toml".source =
+    config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/sesh.toml";
 
   programs.emacs = {
     enable = true;
