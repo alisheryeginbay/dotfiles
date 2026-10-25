@@ -323,6 +323,27 @@
     };
   };
 
+  # Re-themes Emacs the moment macOS switches light/dark
+  # (see my/apply-system-theme in config/emacs/lisp/editor.el).
+  launchd.agents.appearance-watch = {
+    enable = true;
+    config = {
+      ProgramArguments = [
+        "/usr/bin/osascript"
+        "-l"
+        "JavaScript"
+        "${./scripts/appearance-watch.js}"
+        "${config.programs.emacs.finalPackage}/bin/emacsclient"
+        "--no-wait"
+        "--eval"
+        "(my/apply-system-theme)"
+      ];
+      RunAtLoad = true;
+      KeepAlive = true;
+      StandardErrorPath = "/tmp/appearance-watch.err.log";
+    };
+  };
+
   # Language keys: kanata (config/kanata.kbd) sends F13-F17 on ` + 1..5/q and
   # switches its own layer; skhd switches the input source to match.
   # Runs the copy darwin.nix installs and signs at a fixed path, so its

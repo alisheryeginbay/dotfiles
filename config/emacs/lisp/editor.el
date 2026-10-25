@@ -11,7 +11,20 @@
 (setq initial-scratch-message "")
 (setq-default show-trailing-whitespace t)
 
-(load-theme 'modus-operandi t)
+;; Follow macOS light/dark. Runs at startup, and the appearance-watch
+;; launchd agent (home.nix) calls it through emacsclient on every switch.
+(defun my/apply-system-theme ()
+  "Load Modus Vivendi or Operandi to match the macOS appearance."
+  (interactive)
+  (let ((theme (if (string-prefix-p
+                    "Dark" (shell-command-to-string
+                            "defaults read -g AppleInterfaceStyle 2>/dev/null"))
+                   'modus-vivendi
+                 'modus-operandi)))
+    (unless (equal custom-enabled-themes (list theme))
+      (mapc #'disable-theme custom-enabled-themes)
+      (load-theme theme t))))
+(my/apply-system-theme)
 
 (set-face-attribute 'default nil :family "Aporetic Sans Mono" :height 150)
 (set-face-attribute 'variable-pitch nil :family "Aporetic Sans" :height 1.0)
