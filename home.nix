@@ -203,6 +203,16 @@
     };
   };
 
+  # Pager for git diffs; picks light/dark colors from the terminal.
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      navigate = true; # n/N jump between files
+      line-numbers = true;
+    };
+  };
+
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
