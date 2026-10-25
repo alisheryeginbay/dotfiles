@@ -155,8 +155,13 @@ in
     # list is complete.
     onActivation.cleanup = "none";
 
+    taps = [
+      "allenap/utils"
+    ];
+
     brews = [
       "mole" # nixpkgs' mole is a different program
+      "allenap/utils/rust-petname"
     ];
 
     # brew runs as alisher (non-admin), so it can't run .pkg installers or add
