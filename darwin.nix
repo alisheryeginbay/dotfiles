@@ -224,6 +224,7 @@ in
       "allenap/utils/rust-petname"
       "ffmpeg"
       "sox"
+      "mas" # installs masApps below
     ];
 
     casks = [
