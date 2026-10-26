@@ -107,6 +107,16 @@ in
   # `sudo tailscale up` from the admin account.
   services.tailscale.enable = true;
 
+  # Block incoming connections to apps that haven't been allowed. Stealth mode
+  # also ignores pings and probes to closed ports, so the Mac doesn't answer
+  # scans on public networks. Outgoing traffic and replies are unaffected.
+  networking.applicationFirewall = {
+    enable = true;
+    enableStealthMode = true;
+    allowSigned = true; # Apple's own services (AirDrop, sharing)
+    allowSignedApp = true; # downloaded apps with a valid Developer ID
+  };
+
   # Written to alisher's preferences by the admin rebuild; the Dock may need a
   # logout to pick up changes.
   system.defaults = {
@@ -126,6 +136,14 @@ in
     };
 
     WindowManager.GloballyEnabled = false; # Stage Manager off
+
+    # The folder is created by home.nix; macOS falls back to the Desktop
+    # if it's missing.
+    screencapture = {
+      location = "/Users/alisher/Pictures/Screenshots";
+      type = "png";
+      disable-shadow = true;
+    };
 
     NSGlobalDomain = {
       AppleMeasurementUnits = "Centimeters";

@@ -376,6 +376,11 @@
   launchd.agents.skhd.config.ProgramArguments =
     lib.mkForce [ "/Library/Application Support/skhd/skhd" ];
 
+  # Screenshot folder (system.defaults.screencapture in darwin.nix).
+  home.activation.screenshotDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run mkdir -p "$HOME/Pictures/Screenshots"
+  '';
+
   # Personal dictionary; out-of-store so spell checkers can add words.
   xdg.configFile."enchant/en_US.dic".source =
     config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/enchant/en_US.dic";
