@@ -23,8 +23,8 @@ in
   # $ nix-env -qaP | grep wget
   environment.systemPackages =
     [ pkgs.vim
-      # Ghostty points TERMINFO into alisher's private ~/Applications, so other
-      # users (e.g. after `su`) need xterm-ghostty installed system-wide.
+      # Ghostty points TERMINFO into alisher's ~/Applications, which root
+      # shells (sudo -i) don't see, so install xterm-ghostty system-wide.
       pkgs.ghostty-bin.terminfo
     ];
 
@@ -52,6 +52,12 @@ in
 
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = "aarch64-darwin";
+
+  # Touch ID for sudo; reattach makes it work inside tmux too.
+  security.pam.services.sudo_local = {
+    touchIdAuth = true;
+    reattach = true;
+  };
 
   programs.fish.enable = true;
   environment.shells = [ pkgs.fish ];
@@ -102,9 +108,8 @@ in
     StandardErrorPath = "/Library/Logs/kanata.log";
   };
 
-  # Open-source tailscaled as a root launchd daemon (no GUI app, which would
-  # need an admin install into /Applications). Log in once with
-  # `sudo tailscale up` from the admin account.
+  # Open-source tailscaled as a root launchd daemon, no GUI app. Log in once
+  # with `sudo tailscale up`.
   services.tailscale.enable = true;
 
   # Remote Login (sshd) off; nothing needs to SSH into this Mac.
@@ -120,7 +125,7 @@ in
     allowSignedApp = true; # downloaded apps with a valid Developer ID
   };
 
-  # Written to alisher's preferences by the admin rebuild; the Dock may need a
+  # Written to alisher's preferences by the rebuild; the Dock may need a
   # logout to pick up changes.
   system.defaults = {
     dock = {
@@ -217,14 +222,10 @@ in
       "allenap/utils/rust-petname"
     ];
 
-    # brew runs as alisher (non-admin), so it can't run .pkg installers or add
-    # apps to /Applications. Listed casks must already be installed/adopted;
-    # .pkg-based apps (Karabiner-Elements, R, MacTeX, Adobe Digital Editions)
-    # stay manual.
     casks = [
       # core
       { name = "bitwarden"; args.appdir = "~/Applications"; }
-      { name = "secretive"; args.appdir = "~/Applications"; } # SSH keys in the Secure Enclave
+      "secretive" # SSH keys in the Secure Enclave; must live in /Applications
       "raycast"
 
       # browsers
