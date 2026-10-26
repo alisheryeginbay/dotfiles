@@ -417,6 +417,7 @@ in
         "30m"
         "--exclude-caches"
         "${config.home.homeDirectory}/Documents"
+        "${config.home.homeDirectory}/flashcards"
       ];
       StartCalendarInterval = [ { Hour = 12; Minute = 0; } ];
       LowPriorityIO = true;
