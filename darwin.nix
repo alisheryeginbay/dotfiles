@@ -224,6 +224,7 @@ in
     casks = [
       # core
       { name = "bitwarden"; args.appdir = "~/Applications"; }
+      { name = "secretive"; args.appdir = "~/Applications"; } # SSH keys in the Secure Enclave
       "raycast"
 
       # browsers
