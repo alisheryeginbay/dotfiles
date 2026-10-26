@@ -38,7 +38,7 @@ in
   home.packages = with pkgs; [
     # shell utilities
     neovim
-    sesh # tmux session manager; picker on prefix+T (config/tmux.conf)
+    sesh # tmux session manager; picker on prefix+s (config/tmux.conf)
     bat
     eza
     ripgrep
