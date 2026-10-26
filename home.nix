@@ -156,6 +156,8 @@ in
       set -g fish_greeting
       set -gx EDITOR nvim
       set -gx BUN_INSTALL $HOME/.bun
+      # Set every time so tmux panes can't keep a stale agent path.
+      set -gx SSH_AUTH_SOCK ${secretiveAgent}
     '';
     interactiveShellInit = ''
       fnm env --use-on-cd --shell fish | source
@@ -235,10 +237,6 @@ in
     settings."*".IdentityAgent =
       "~/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
   };
-
-  # Commit signing (ssh-keygen -Y sign) reads the agent from SSH_AUTH_SOCK,
-  # not from ssh_config. Emacs picks it up via exec-path-from-shell.
-  home.sessionVariables.SSH_AUTH_SOCK = secretiveAgent;
 
   programs.gh = {
     enable = true;
