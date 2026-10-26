@@ -229,6 +229,8 @@ in
     enable = true;
     # Anything installed by brew but not listed here is removed with its data.
     onActivation.cleanup = "zap";
+    # Show download and install progress.
+    onActivation.extraFlags = [ "--verbose" ];
 
     taps = [
       "allenap/utils"
