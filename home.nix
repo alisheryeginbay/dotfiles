@@ -3,7 +3,7 @@
 let
   # Public half of the Secretive (Secure Enclave) key: GitHub auth and commit
   # signing.
-  gitSshKey = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBf3hclJvXrWOAMe5PqsuG4d4LkZEjR6XbtHMCoYtIyxQYB2ZoLBWRQ7Hie+7w3X6xYRVxfzA/9lucgX/COSjTA=";
+  gitSshKey = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBITgs3/7KEeyKAV5h2+K7zoMMIGKIDzpLTY/hEjLEjIQUTnDtZG8jlDMbDKCEK62rkvl1omdQWoTMjdypg0Znrw=";
   # Signed commits before 2026-10-26; kept so they still verify.
   oldGitSshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIENGgSzne1Wl2M5z+pOPcTTi9ebGdP03JwO4JUbiYTO3";
   secretiveAgent = "$HOME/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
