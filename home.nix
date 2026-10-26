@@ -464,6 +464,13 @@ in
     run mkdir -p "$HOME/Pictures/Screenshots"
   '';
 
+  # Make macOS rescan Home Manager fonts.
+  home.activation.refreshFonts = lib.hm.dag.entryAfter [ "linkGeneration" "onFilesChange" ] ''
+    if [ -d "$HOME/Library/Fonts/HomeManager" ]; then
+      run find "$HOME/Library/Fonts" -type d -exec touch {} +
+    fi
+  '';
+
   # Personal dictionary; out-of-store so spell checkers can add words.
   xdg.configFile."enchant/en_US.dic".source =
     config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/enchant/en_US.dic";
