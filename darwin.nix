@@ -131,11 +131,43 @@ in
       AppleMeasurementUnits = "Centimeters";
       AppleMetricUnits = 1;
       AppleTemperatureUnit = "Celsius";
+
+      # Typing: fastest repeat the Settings sliders allow, and holding a key
+      # repeats it (for vim) instead of opening the accent picker.
+      KeyRepeat = 2;
+      InitialKeyRepeat = 15;
+      ApplePressAndHoldEnabled = false;
+
+      # No autocorrect or "smart" rewriting; it mangles code and commands.
+      NSAutomaticSpellingCorrectionEnabled = false;
+      NSAutomaticCapitalizationEnabled = false;
+      NSAutomaticPeriodSubstitutionEnabled = false; # double space -> ". "
+      NSAutomaticQuoteSubstitutionEnabled = false;
+      NSAutomaticDashSubstitutionEnabled = false;
+      NSAutomaticInlinePredictionEnabled = false;
+
+      AppleShowAllExtensions = true;
+    };
+
+    finder = {
+      AppleShowAllExtensions = true;
+      FXEnableExtensionChangeWarning = false;
+      ShowPathbar = true;
+      ShowStatusBar = true;
+      FXDefaultSearchScope = "SCcf"; # search the current folder
+      FXPreferredViewStyle = "Nlsv"; # list view
+      _FXSortFoldersFirst = true;
     };
 
     CustomUserPreferences = {
       # Thinner text in Emacs (the daemon runs inside Emacs.app for this).
       "org.gnu.Emacs".AppleFontSmoothing = 0;
+
+      # No .DS_Store litter on network shares and USB drives.
+      "com.apple.desktopservices" = {
+        DSDontWriteNetworkStores = true;
+        DSDontWriteUSBStores = true;
+      };
 
       # Lock the Dock so it can only be changed here: no dragging apps on/off,
       # and the matching Dock controls in System Settings are greyed out.
