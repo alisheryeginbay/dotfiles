@@ -24,7 +24,6 @@
   home.packages = with pkgs; [
     # shell utilities
     neovim
-    tmux
     sesh # tmux session manager; picker on prefix+T (config/tmux.conf)
     bat
     eza
@@ -251,7 +250,28 @@
   xdg.configFile."nvim".source =
     config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/nvim";
 
-  home.file.".tmux.conf".source = ./config/tmux.conf;
+  programs.tmux = {
+    enable = true;
+    prefix = "C-a";
+    baseIndex = 1;
+    mouse = true;
+    terminal = "tmux-256color";
+    escapeTime = 0;
+    focusEvents = true;
+    historyLimit = 50000;
+    plugins = with pkgs.tmuxPlugins; [
+      sensible
+      resurrect
+      continuum # auto-saves via resurrect; restore is off
+      yank
+      vim-tmux-navigator
+    ];
+  };
+  # Placed before the plugins (which home-manager loads at order 1000):
+  # continuum hooks its auto-save into status-right, so status-right has to
+  # be set before it loads or the hook gets overwritten.
+  xdg.configFile."tmux/tmux.conf".text =
+    lib.mkOrder 600 (builtins.readFile ./config/tmux.conf);
 
   # Out-of-store so preset edits apply without a rebuild.
   xdg.configFile."sesh/sesh.toml".source =
