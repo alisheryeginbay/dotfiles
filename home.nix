@@ -1,5 +1,10 @@
 { config, lib, pkgs, ... }:
 
+let
+  # Public half of the SSH key in Bitwarden: GitHub auth and commit signing.
+  gitSshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIENGgSzne1Wl2M5z+pOPcTTi9ebGdP03JwO4JUbiYTO3";
+  gitEmail = "alisher@yeginbay.com";
+in
 {
   home.username = "alisher";
   home.homeDirectory = "/Users/alisher";
@@ -192,7 +197,9 @@
     };
     settings = {
       user.name = "Alisher Yeginbay";
-      user.email = "alisher@yeginbay.com";
+      user.email = gitEmail;
+      # Lets `git log --show-signature` verify my own commits.
+      gpg.ssh.allowedSignersFile = "${config.home.homeDirectory}/.ssh/allowed_signers";
       init.defaultBranch = "main";
       lfs.concurrenttransfers = 3;
       "lfs \"customtransfer.xet\"" = {
@@ -225,6 +232,10 @@
       IdentitiesOnly = "yes";
     };
   };
+  # The private key is only in Bitwarden.
+  home.file.".ssh/git.pub".text = "${gitSshKey}\n";
+  home.file.".ssh/allowed_signers".text = "${gitEmail} ${gitSshKey}\n";
+
   # Commit signing (ssh-keygen -Y sign) reads the agent from SSH_AUTH_SOCK,
   # not from ssh_config. Emacs picks it up via exec-path-from-shell.
   home.sessionVariables.SSH_AUTH_SOCK = "$HOME/.bitwarden-ssh-agent.sock";
