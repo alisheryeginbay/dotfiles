@@ -107,6 +107,9 @@ in
   # `sudo tailscale up` from the admin account.
   services.tailscale.enable = true;
 
+  # Remote Login (sshd) off; nothing needs to SSH into this Mac.
+  services.openssh.enable = false;
+
   # Block incoming connections to apps that haven't been allowed. Stealth mode
   # also ignores pings and probes to closed ports, so the Mac doesn't answer
   # scans on public networks. Outgoing traffic and replies are unaffected.
