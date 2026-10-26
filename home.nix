@@ -471,6 +471,15 @@ in
     fi
   '';
 
+  # Helium as default browser; skips set ones so macOS doesn't re-prompt.
+  home.activation.defaultBrowser = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    for target in http https public.html public.xhtml; do
+      if [ "$(${pkgs.duti}/bin/duti -d "$target" 2>/dev/null)" != "net.imput.helium" ]; then
+        run ${pkgs.duti}/bin/duti -s net.imput.helium "$target" all
+      fi
+    done
+  '';
+
   # Personal dictionary; out-of-store so spell checkers can add words.
   xdg.configFile."enchant/en_US.dic".source =
     config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/enchant/en_US.dic";
