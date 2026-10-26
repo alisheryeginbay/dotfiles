@@ -213,15 +213,21 @@
     };
   };
 
+  # SSH keys live in Bitwarden; its desktop app serves them through an agent
+  # and asks before each use (or once per unlocked session).
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
+    settings."*".IdentityAgent = "~/.bitwarden-ssh-agent.sock";
     settings."github.com" = {
-      IdentityFile = "~/.ssh/git";
-      AddKeysToAgent = "yes";
-      UseKeychain = "yes";
+      # The public key picks which agent key to offer.
+      IdentityFile = "~/.ssh/git.pub";
+      IdentitiesOnly = "yes";
     };
   };
+  # Commit signing (ssh-keygen -Y sign) reads the agent from SSH_AUTH_SOCK,
+  # not from ssh_config. Emacs picks it up via exec-path-from-shell.
+  home.sessionVariables.SSH_AUTH_SOCK = "$HOME/.bitwarden-ssh-agent.sock";
 
   programs.gh = {
     enable = true;

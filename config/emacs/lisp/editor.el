@@ -180,6 +180,8 @@
 (use-package exec-path-from-shell
   :ensure t
   :config
+  ;; SSH_AUTH_SOCK points at Bitwarden's agent, for magit commit signing.
+  (add-to-list 'exec-path-from-shell-variables "SSH_AUTH_SOCK")
   (when (or (memq window-system '(mac ns))
             (daemonp))
     (exec-path-from-shell-initialize)))
