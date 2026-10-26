@@ -408,7 +408,8 @@ in
         "${notifyOnFailure "restic-backup" ''
           ${lib.getExe resticB2} backup --retry-lock 30m --exclude-caches \
             "$HOME/Documents" \
-            "$HOME/flashcards"
+            "$HOME/flashcards" \
+            "$HOME/.local/share/plock"
         ''}"
       ];
       StartCalendarInterval = [ { Hour = 12; Minute = 0; } ];
