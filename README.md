@@ -10,6 +10,15 @@ nix-darwin module) for my user, in one flake.
 | `darwin.nix` | nix settings, macOS defaults, Homebrew casks, kanata daemon | `darwin-rebuild` |
 | `config/` | raw config files linked in by the above | |
 
+## New Mac
+
+```sh
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/alisheryeginbay/dotfiles/main/scripts/bootstrap.sh)"
+```
+
+Installs Nix, Homebrew (with the Xcode Command Line Tools), clones this repo
+and applies it. It prints the remaining manual steps at the end.
+
 ## Usage
 
 ```sh
