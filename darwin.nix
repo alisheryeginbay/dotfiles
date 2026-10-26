@@ -99,6 +99,11 @@ in
     installSigned restic ${pkgs.restic}/bin/.restic-wrapped ""
   '';
 
+  # Restart the Dock again once Homebrew and home-manager have installed apps.
+  system.activationScripts.postActivation.text = pkgs.lib.mkAfter ''
+    killall -qu alisher Dock || true
+  '';
+
   launchd.daemons.kanata.serviceConfig = {
     ProgramArguments = [
       "/Library/Application Support/kanata/kanata"
