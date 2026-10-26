@@ -113,10 +113,6 @@ in
     StandardErrorPath = "/Library/Logs/kanata.log";
   };
 
-  # Open-source tailscaled as a root launchd daemon, no GUI app. Log in once
-  # with `sudo tailscale up`.
-  services.tailscale.enable = true;
-
   # Remote Login (sshd) off; nothing needs to SSH into this Mac.
   services.openssh.enable = false;
 
