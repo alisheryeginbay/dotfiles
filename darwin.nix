@@ -196,6 +196,13 @@ in
       FXDefaultSearchScope = "SCcf"; # search the current folder
       FXPreferredViewStyle = "Nlsv"; # list view
       _FXSortFoldersFirst = true;
+      _FXShowPosixPathInTitle = true; # full path in the title bar
+      NewWindowTarget = "Home"; # new windows open in ~
+      FXRemoveOldTrashItems = true; # empty Trash items after 30 days
+      QuitMenuItem = true; # allow ⌘Q on Finder
+      CreateDesktop = false; # no icons on the desktop
+      ShowExternalHardDrivesOnDesktop = false;
+      ShowRemovableMediaOnDesktop = false;
     };
 
     CustomUserPreferences = {
