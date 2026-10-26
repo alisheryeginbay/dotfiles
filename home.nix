@@ -19,6 +19,16 @@ let
     exec "/Library/Application Support/restic/restic" "$@"
   '';
   resticLog = name: "${config.home.homeDirectory}/Library/Logs/${name}.log";
+  # Runs a shell command; on failure, posts a macOS notification pointing at the log.
+  notifyOnFailure = name: cmd: pkgs.writeShellScript name ''
+    {
+      ${cmd}
+    } || {
+      status=$?
+      /usr/bin/osascript -e "display notification \"Exit $status. See ~/Library/Logs/${name}.log\" with title \"${name} failed\""
+      exit $status
+    }
+  '';
 in
 {
   home.username = "alisher";
@@ -411,13 +421,11 @@ in
     enable = true;
     config = {
       ProgramArguments = [
-        "${lib.getExe resticB2}"
-        "backup"
-        "--retry-lock"
-        "30m"
-        "--exclude-caches"
-        "${config.home.homeDirectory}/Documents"
-        "${config.home.homeDirectory}/flashcards"
+        "${notifyOnFailure "restic-backup" ''
+          ${lib.getExe resticB2} backup --retry-lock 30m --exclude-caches \
+            "$HOME/Documents" \
+            "$HOME/flashcards"
+        ''}"
       ];
       StartCalendarInterval = [ { Hour = 12; Minute = 0; } ];
       LowPriorityIO = true;
@@ -432,10 +440,9 @@ in
     enable = true;
     config = {
       ProgramArguments = [
-        "${pkgs.writeShellScript "restic-prune" ''
-          set -e
+        "${notifyOnFailure "restic-prune" ''
           ${lib.getExe resticB2} forget --retry-lock 30m --prune \
-            --keep-daily 7 --keep-weekly 4 --keep-monthly 12
+            --keep-daily 7 --keep-weekly 4 --keep-monthly 12 &&
           ${lib.getExe resticB2} check
         ''}"
       ];
