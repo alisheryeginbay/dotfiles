@@ -199,7 +199,7 @@ in
       user.name = "Alisher Yeginbay";
       user.email = gitEmail;
       # Lets `git log --show-signature` verify my own commits.
-      gpg.ssh.allowedSignersFile = "${config.home.homeDirectory}/.ssh/allowed_signers";
+      gpg.ssh.allowedSignersFile = "${pkgs.writeText "allowed_signers" "${gitEmail} ${gitSshKey}\n"}";
       init.defaultBranch = "main";
       lfs.concurrenttransfers = 3;
       "lfs \"customtransfer.xet\"" = {
@@ -228,7 +228,6 @@ in
     # No IdentityFile: ssh offers the keys the agent holds.
     settings."*".IdentityAgent = "~/.bitwarden-ssh-agent.sock";
   };
-  home.file.".ssh/allowed_signers".text = "${gitEmail} ${gitSshKey}\n";
 
   # Commit signing (ssh-keygen -Y sign) reads the agent from SSH_AUTH_SOCK,
   # not from ssh_config. Emacs picks it up via exec-path-from-shell.
