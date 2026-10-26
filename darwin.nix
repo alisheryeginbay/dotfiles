@@ -246,6 +246,7 @@ in
       # network / privacy
       "mullvad-vpn"
       "tor-browser"
+      "lulu" # outbound firewall
 
       # tools
       "ollama-app"
