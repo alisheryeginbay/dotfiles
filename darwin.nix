@@ -99,8 +99,15 @@ in
     installSigned restic ${pkgs.restic}/bin/.restic-wrapped ""
   '';
 
-  # Restart the Dock again once Homebrew and home-manager have installed apps.
   system.activationScripts.postActivation.text = pkgs.lib.mkAfter ''
+    # nix-darwin only sets shells for users in knownUsers.
+    fish=/run/current-system/sw/bin/fish
+    if [ "$(dscl . -read /Users/alisher UserShell)" != "UserShell: $fish" ]; then
+      echo "setting login shell to fish..." >&2
+      dscl . -create /Users/alisher UserShell "$fish"
+    fi
+
+    # Restart the Dock again once Homebrew and home-manager have installed apps.
     killall -qu alisher Dock || true
   '';
 
@@ -255,6 +262,7 @@ in
 
       # tools
       "ollama-app"
+			"claude-code"
 
       # work / study
       "figma"
