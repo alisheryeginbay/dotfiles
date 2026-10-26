@@ -1,8 +1,12 @@
 { config, lib, pkgs, ... }:
 
 let
-  # Public half of the SSH key in Bitwarden: GitHub auth and commit signing.
-  gitSshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIENGgSzne1Wl2M5z+pOPcTTi9ebGdP03JwO4JUbiYTO3";
+  # Public half of the Secretive (Secure Enclave) key: GitHub auth and commit
+  # signing.
+  gitSshKey = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBf3hclJvXrWOAMe5PqsuG4d4LkZEjR6XbtHMCoYtIyxQYB2ZoLBWRQ7Hie+7w3X6xYRVxfzA/9lucgX/COSjTA=";
+  # Signed commits before 2026-10-26; kept so they still verify.
+  oldGitSshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIENGgSzne1Wl2M5z+pOPcTTi9ebGdP03JwO4JUbiYTO3";
+  secretiveAgent = "$HOME/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
   gitEmail = "alisher@yeginbay.com";
 in
 {
@@ -199,7 +203,10 @@ in
       user.name = "Alisher Yeginbay";
       user.email = gitEmail;
       # Lets `git log --show-signature` verify my own commits.
-      gpg.ssh.allowedSignersFile = "${pkgs.writeText "allowed_signers" "${gitEmail} ${gitSshKey}\n"}";
+      gpg.ssh.allowedSignersFile = "${pkgs.writeText "allowed_signers" ''
+        ${gitEmail} ${gitSshKey}
+        ${gitEmail} ${oldGitSshKey}
+      ''}";
       init.defaultBranch = "main";
       lfs.concurrenttransfers = 3;
       "lfs \"customtransfer.xet\"" = {
@@ -220,18 +227,19 @@ in
     };
   };
 
-  # SSH keys live in Bitwarden; its desktop app serves them through an agent
-  # and asks before each use (or once per unlocked session).
+  # SSH keys live in the Secure Enclave via Secretive, which serves them
+  # through its agent.
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
     # No IdentityFile: ssh offers the keys the agent holds.
-    settings."*".IdentityAgent = "~/.bitwarden-ssh-agent.sock";
+    settings."*".IdentityAgent =
+      "~/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
   };
 
   # Commit signing (ssh-keygen -Y sign) reads the agent from SSH_AUTH_SOCK,
   # not from ssh_config. Emacs picks it up via exec-path-from-shell.
-  home.sessionVariables.SSH_AUTH_SOCK = "$HOME/.bitwarden-ssh-agent.sock";
+  home.sessionVariables.SSH_AUTH_SOCK = secretiveAgent;
 
   programs.gh = {
     enable = true;
