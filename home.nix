@@ -164,7 +164,6 @@ in
       ls = "eza --all --long --group --group-directories-first --icons --header --time-style long-iso";
       grt = ''cd "$(git rev-parse --show-toplevel)"'';
       cat = "bat";
-      cc = "claude --dangerously-skip-permissions";
       e = "emacsclient -n";
       ec = "emacsclient -c -n";
     };
