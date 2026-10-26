@@ -212,9 +212,8 @@ in
 
   homebrew = {
     enable = true;
-    # Unlisted casks are left alone for now; switch to "uninstall" once the
-    # list is complete.
-    onActivation.cleanup = "none";
+    # Anything installed by brew but not listed here is removed with its data.
+    onActivation.cleanup = "zap";
 
     taps = [
       "allenap/utils"
@@ -223,6 +222,8 @@ in
     brews = [
       "mole" # nixpkgs' mole is a different program
       "allenap/utils/rust-petname"
+      "ffmpeg"
+      "sox"
     ];
 
     casks = [
@@ -230,6 +231,7 @@ in
       { name = "bitwarden"; args.appdir = "~/Applications"; }
       "secretive" # SSH keys in the Secure Enclave; must live in /Applications
       "raycast"
+      "karabiner-elements" # provides the virtual HID driver kanata needs
 
       # browsers
       "helium-browser"
@@ -237,9 +239,20 @@ in
       # communication
       "discord"
 
+      # network / privacy
+      "mullvad-vpn"
+      "tor-browser"
+
+      # tools
+      "ollama-app"
+
       # work / study
       "figma"
       "zotero" # nixpkgs build is broken on darwin
     ];
+
+    masApps = {
+      WireGuard = 1451685025;
+    };
   };
 }
