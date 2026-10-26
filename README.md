@@ -23,6 +23,8 @@ and applies it. It prints the remaining manual steps at the end.
 
 ```sh
 # apply system and user config (sudo takes Touch ID)
+nh darwin switch
+# without nh (first install):
 sudo darwin-rebuild switch --flake path:/private/etc/nix-darwin#MacBook-Pro
 
 # update Nix packages (then rebuild) and Homebrew apps

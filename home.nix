@@ -177,6 +177,12 @@ in
     };
   };
 
+  # `nh darwin switch` rebuilds this flake; path: includes untracked files.
+  programs.nh = {
+    enable = true;
+    flake = "path:/private/etc/nix-darwin";
+  };
+
   home.sessionPath = [
     "$HOME/.bun/bin"
     "$HOME/.cargo/bin"
