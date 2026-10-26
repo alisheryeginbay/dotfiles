@@ -1,26 +1,24 @@
 # nix-darwin
 
 My macOS setup: [nix-darwin](https://github.com/nix-darwin/nix-darwin) for the
-system and standalone [home-manager](https://github.com/nix-community/home-manager)
-for my user, in one flake.
+system and [home-manager](https://github.com/nix-community/home-manager) (as a
+nix-darwin module) for my user, in one flake.
 
 | File | What | Applied by |
 | --- | --- | --- |
-| `home.nix` | CLI tools, fish, git, nvim, tmux, Ghostty, Emacs, fonts, some GUI apps | `home-manager`, no sudo |
-| `darwin.nix` | nix settings, macOS defaults, Homebrew casks, kanata daemon | `darwin-rebuild`, with sudo |
+| `home.nix` | CLI tools, fish, git, nvim, tmux, Ghostty, Emacs, fonts, some GUI apps | `darwin-rebuild` |
+| `darwin.nix` | nix settings, macOS defaults, Homebrew casks, kanata daemon | `darwin-rebuild` |
 | `config/` | raw config files linked in by the above | |
 
 ## Usage
 
 ```sh
-# user config
-home-manager switch --flake /etc/nix-darwin
-
-# system config (sudo takes Touch ID)
+# apply system and user config (sudo takes Touch ID)
 sudo darwin-rebuild switch --flake path:/private/etc/nix-darwin#MacBook-Pro
 
-# update everything
+# update Nix packages (then rebuild) and Homebrew apps
 nix flake update
+brew upgrade
 ```
 
 `path:` skips git's ownership check (the repo belongs to my user, the rebuild

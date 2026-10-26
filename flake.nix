@@ -9,27 +9,21 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager }:
-  let
-    system = "aarch64-darwin";
-  in
-  {
-    # System config; needs admin. Build darwin flake using:
-    # $ sudo darwin-rebuild switch --flake .#MacBook-Pro
+  outputs = { self, nix-darwin, home-manager, ... }: {
+    # System and user config together:
+    # $ sudo darwin-rebuild switch --flake path:/private/etc/nix-darwin#MacBook-Pro
     darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
       specialArgs = { inherit self; };
-      modules = [ ./darwin.nix ];
-    };
-
-    # User config; no admin needed:
-    # $ home-manager switch --flake .#alisher
-    homeConfigurations.alisher = home-manager.lib.homeManagerConfiguration {
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfreePredicate = pkg:
-          builtins.elem (nixpkgs.lib.getName pkg) [ "slack" ];
-      };
-      modules = [ ./home.nix ];
+      modules = [
+        ./darwin.nix
+        home-manager.darwinModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.backupFileExtension = "hm-backup";
+          home-manager.users.alisher = import ./home.nix;
+        }
+      ];
     };
   };
 }

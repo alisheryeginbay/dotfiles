@@ -28,11 +28,13 @@ in
       pkgs.ghostty-bin.terminfo
     ];
 
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (pkgs.lib.getName pkg) [ "slack" ];
+
   # Necessary for using flakes on this system.
   nix.settings.experimental-features = "nix-command flakes";
 
-  # Weekly cleanup of the store. Old home-manager generations are expired by
-  # nix.gc in home.nix (they're the user's GC roots, so root can't drop them).
+  # Weekly cleanup of the store.
   nix.gc = {
     automatic = true;
     interval = { Weekday = 0; Hour = 3; Minute = 0; };
