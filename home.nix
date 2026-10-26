@@ -427,9 +427,4 @@
       (link "mw" "Merriam-Webster" "https://www.merriam-webster.com/")
       (link "mwt" "Merriam-Webster Thesaurus" "https://www.merriam-webster.com/thesaurus")
     ];
-
-  xdg.configFile."1Password/ssh/agent.toml".text = ''
-    [[ssh-keys]]
-    vault = "Personal"
-  '';
 }

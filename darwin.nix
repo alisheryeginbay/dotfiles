@@ -220,8 +220,6 @@ in
     # stay manual.
     casks = [
       # core
-      "1password"
-      "1password-cli"
       { name = "bitwarden"; args.appdir = "~/Applications"; }
       "raycast"
 
