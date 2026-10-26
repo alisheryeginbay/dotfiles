@@ -8,6 +8,17 @@ let
   oldGitSshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIENGgSzne1Wl2M5z+pOPcTTi9ebGdP03JwO4JUbiYTO3";
   secretiveAgent = "$HOME/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
   gitEmail = "alisher@yeginbay.com";
+  # restic against B2; repo URL and secrets come from the login keychain
+  # (service restic-b2). Execs the signed copy so Full Disk Access applies.
+  resticB2 = pkgs.writeShellScriptBin "restic-b2" ''
+    kc() { /usr/bin/security find-generic-password -s restic-b2 -a "$1" -w; }
+    export RESTIC_REPOSITORY="$(kc repo)"
+    export AWS_ACCESS_KEY_ID="$(kc key-id)"
+    export AWS_SECRET_ACCESS_KEY="$(kc key)"
+    export RESTIC_PASSWORD_COMMAND="/usr/bin/security find-generic-password -s restic-b2 -a password -w"
+    exec "/Library/Application Support/restic/restic" "$@"
+  '';
+  resticLog = name: "${config.home.homeDirectory}/Library/Logs/${name}.log";
 in
 {
   home.username = "alisher";
@@ -134,6 +145,7 @@ in
 
     # misc
     restic
+    resticB2
     rage
     (buildGoModule rec {
       pname = "tle";
@@ -391,6 +403,46 @@ in
       RunAtLoad = true;
       KeepAlive = true;
       StandardErrorPath = "/tmp/appearance-watch.err.log";
+    };
+  };
+
+  # Daily at noon; launchd runs a missed job on wake.
+  launchd.agents.restic-backup = {
+    enable = true;
+    config = {
+      ProgramArguments = [
+        "${lib.getExe resticB2}"
+        "backup"
+        "--retry-lock"
+        "30m"
+        "--exclude-caches"
+        "${config.home.homeDirectory}/Documents"
+      ];
+      StartCalendarInterval = [ { Hour = 12; Minute = 0; } ];
+      LowPriorityIO = true;
+      ProcessType = "Background";
+      StandardOutPath = resticLog "restic-backup";
+      StandardErrorPath = resticLog "restic-backup";
+    };
+  };
+
+  # Weekly: drop old snapshots, then verify the repo.
+  launchd.agents.restic-prune = {
+    enable = true;
+    config = {
+      ProgramArguments = [
+        "${pkgs.writeShellScript "restic-prune" ''
+          set -e
+          ${lib.getExe resticB2} forget --retry-lock 30m --prune \
+            --keep-daily 7 --keep-weekly 4 --keep-monthly 12
+          ${lib.getExe resticB2} check
+        ''}"
+      ];
+      StartCalendarInterval = [ { Weekday = 0; Hour = 13; Minute = 0; } ];
+      LowPriorityIO = true;
+      ProcessType = "Background";
+      StandardOutPath = resticLog "restic-prune";
+      StandardErrorPath = resticLog "restic-prune";
     };
   };
 

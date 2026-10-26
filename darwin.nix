@@ -64,7 +64,7 @@ in
 
   # kanata needs the Karabiner VirtualHIDDevice driver (from the
   # Karabiner-Elements install) and Input Monitoring permission; skhd (see
-  # home.nix) needs Accessibility. macOS ties those permissions to the
+  # home.nix) needs Accessibility; restic needs Full Disk Access. macOS ties those permissions to the
   # binary's signature, and every store path is a new ad-hoc signature. So
   # activation copies each binary to a fixed root-owned path and signs it with
   # a local certificate (scripts/create-kanata-cert.sh); the permissions then
@@ -82,7 +82,7 @@ in
           mv -f "$dir/$1.new" "$dir/$1"
           echo "$2" > "$dir/source"
           # The plist doesn't change on a binary-only update, so restart by hand.
-          launchctl kickstart -k "$3" 2>/dev/null || true
+          [ -z "$3" ] || launchctl kickstart -k "$3" 2>/dev/null || true
         else
           echo "warning: kanata-local signing identity missing; run scripts/create-kanata-cert.sh" >&2
           rm -f "$dir/$1.new"
@@ -92,6 +92,9 @@ in
     installSigned kanata ${kanata}/bin/kanata system/org.nixos.kanata
     installSigned skhd ${pkgs.skhd}/bin/skhd \
       "gui/$(id -u alisher)/org.nix-community.home.skhd"
+    # Full Disk Access for scheduled backups (see restic-b2 in home.nix).
+    # The unwrapped binary: bin/restic only adds ssh/rclone to PATH, which S3 doesn't need.
+    installSigned restic ${pkgs.restic}/bin/.restic-wrapped ""
   '';
 
   launchd.daemons.kanata.serviceConfig = {
