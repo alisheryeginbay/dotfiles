@@ -192,7 +192,7 @@ in
     ];
     signing = {
       format = "ssh";
-      key = "~/.ssh/git.pub";
+      key = "key::${gitSshKey}";
       signByDefault = true;
     };
     settings = {
@@ -225,15 +225,9 @@ in
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
+    # No IdentityFile: ssh offers the keys the agent holds.
     settings."*".IdentityAgent = "~/.bitwarden-ssh-agent.sock";
-    settings."github.com" = {
-      # The public key picks which agent key to offer.
-      IdentityFile = "~/.ssh/git.pub";
-      IdentitiesOnly = "yes";
-    };
   };
-  # The private key is only in Bitwarden.
-  home.file.".ssh/git.pub".text = "${gitSshKey}\n";
   home.file.".ssh/allowed_signers".text = "${gitEmail} ${gitSshKey}\n";
 
   # Commit signing (ssh-keygen -Y sign) reads the agent from SSH_AUTH_SOCK,
