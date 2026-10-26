@@ -271,7 +271,7 @@ in
     enable = true;
     prefix = "C-a";
     baseIndex = 1;
-    mouse = true;
+    mouse = false;
     terminal = "tmux-256color";
     escapeTime = 0;
     focusEvents = true;
