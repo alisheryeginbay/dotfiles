@@ -194,6 +194,9 @@ in
       # Thinner text in Emacs (the daemon runs inside Emacs.app for this).
       "org.gnu.Emacs".AppleFontSmoothing = 0;
 
+      # AirDrop visible to contacts only, not everyone nearby.
+      "com.apple.sharingd".DiscoverableMode = "Contacts Only";
+
       # No .DS_Store litter on network shares and USB drives.
       "com.apple.desktopservices" = {
         DSDontWriteNetworkStores = true;
@@ -211,6 +214,8 @@ in
       };
     };
   };
+
+  environment.variables.HOMEBREW_NO_ANALYTICS = "1";
 
   homebrew = {
     enable = true;

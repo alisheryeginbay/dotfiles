@@ -18,7 +18,7 @@ let
     export RESTIC_PASSWORD_COMMAND="/usr/bin/security find-generic-password -s restic-b2 -a password -w"
     exec "/Library/Application Support/restic/restic" "$@"
   '';
-  resticLog = name: "${config.home.homeDirectory}/Library/Logs/${name}.log";
+  logPath = name: "${config.home.homeDirectory}/Library/Logs/${name}.log";
   # Runs a shell command; on failure, posts a macOS notification pointing at the log.
   notifyOnFailure = name: cmd: pkgs.writeShellScript name ''
     {
@@ -374,8 +374,8 @@ in
       ];
       RunAtLoad = true;
       KeepAlive = true;
-      StandardOutPath = "/tmp/emacs-daemon.out.log";
-      StandardErrorPath = "/tmp/emacs-daemon.err.log";
+      StandardOutPath = logPath "emacs-daemon";
+      StandardErrorPath = logPath "emacs-daemon";
     };
   };
 
@@ -396,7 +396,7 @@ in
       ];
       RunAtLoad = true;
       KeepAlive = true;
-      StandardErrorPath = "/tmp/appearance-watch.err.log";
+      StandardErrorPath = logPath "appearance-watch";
     };
   };
 
@@ -414,8 +414,8 @@ in
       StartCalendarInterval = [ { Hour = 12; Minute = 0; } ];
       LowPriorityIO = true;
       ProcessType = "Background";
-      StandardOutPath = resticLog "restic-backup";
-      StandardErrorPath = resticLog "restic-backup";
+      StandardOutPath = logPath "restic-backup";
+      StandardErrorPath = logPath "restic-backup";
     };
   };
 
@@ -433,8 +433,8 @@ in
       StartCalendarInterval = [ { Weekday = 0; Hour = 13; Minute = 0; } ];
       LowPriorityIO = true;
       ProcessType = "Background";
-      StandardOutPath = resticLog "restic-prune";
-      StandardErrorPath = resticLog "restic-prune";
+      StandardOutPath = logPath "restic-prune";
+      StandardErrorPath = logPath "restic-prune";
     };
   };
 
@@ -454,6 +454,9 @@ in
   };
   launchd.agents.skhd.config.ProgramArguments =
     lib.mkForce [ "/Library/Application Support/skhd/skhd" ];
+
+  # AirPlay Receiver off; it listens on all interfaces.
+  targets.darwin.currentHostDefaults."com.apple.controlcenter".AirplayReceiverEnabled = false;
 
   # Screenshot folder (system.defaults.screencapture in darwin.nix).
   home.activation.screenshotDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
