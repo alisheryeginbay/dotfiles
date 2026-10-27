@@ -43,6 +43,12 @@ runs as root), and `/private/etc` because `/etc` is a symlink.
   (`programs.emacs.extraPackages`). `config/emacs` is linked into
   `~/.config/emacs`, where state (caches, `secrets.el`, `custom.el`) stays local.
 - **kanata:** runs as a root launchd daemon. Activation copies the binary to a
-  fixed path and signs it with a local certificate, so the Input Monitoring
-  permission survives updates. Create the certificate once with
-  `sudo sh scripts/create-kanata-cert.sh`.
+  fixed path and signs it with a local certificate, so its permissions survive
+  updates. One-time setup (log: `/Library/Logs/kanata.log`):
+  1. Create the certificate: `sudo sh scripts/create-kanata-cert.sh`.
+  2. Add `/Library/Application Support/kanata/kanata` under Privacy & Security →
+     Input Monitoring and Device Control and Data Access.
+  3. Activate the Karabiner driver:
+     `/Applications/.Karabiner-VirtualHIDDevice-Manager.app/Contents/MacOS/Karabiner-VirtualHIDDevice-Manager activate`,
+     then allow it in General → Login Items & Extensions → Driver Extensions.
+  4. Restart: `sudo launchctl kickstart -k system/org.nixos.kanata`.

@@ -65,8 +65,9 @@ in
   environment.shells = [ pkgs.fish ];
 
   # kanata needs the Karabiner VirtualHIDDevice driver (from the
-  # Karabiner-Elements install) and Input Monitoring permission; skhd (see
-  # home.nix) needs Accessibility; restic needs Full Disk Access. macOS ties those permissions to the
+  # Karabiner-Elements install) plus Input Monitoring and Device Control and
+  # Data Access; skhd (see home.nix) needs Device Control and Data Access;
+  # restic needs Full Disk Access. macOS ties those permissions to the
   # binary's signature, and every store path is a new ad-hoc signature. So
   # activation copies each binary to a fixed root-owned path and signs it with
   # a local certificate (scripts/create-kanata-cert.sh); the permissions then

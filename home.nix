@@ -448,7 +448,7 @@ in
   # Language keys: kanata (config/kanata.kbd) sends F13-F17 on ` + 1..5/q and
   # switches its own layer; skhd switches the input source to match.
   # Runs the copy darwin.nix installs and signs at a fixed path, so its
-  # Accessibility permission survives skhd updates.
+  # Device Control and Data Access permission survives skhd updates.
   services.skhd = {
     enable = true;
     config = ''

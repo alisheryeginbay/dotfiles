@@ -48,5 +48,6 @@ cat <<'EOF'
   - Open a new terminal (fish).
   - kanata certificate: sudo sh /private/etc/nix-darwin/scripts/create-kanata-cert.sh
   - Secretive: create a key, put it in gitSshKey in home.nix, add it to GitHub.
-  - Grant permissions as macOS asks (Input Monitoring, Full Disk Access, LuLu).
+  - kanata: grant permissions and activate the Karabiner driver (README, kanata).
+  - Grant permissions as macOS asks (Device Control and Data Access, Full Disk Access, LuLu).
 EOF
