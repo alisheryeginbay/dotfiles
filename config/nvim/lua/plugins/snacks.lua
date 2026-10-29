@@ -18,8 +18,8 @@ return {
         -- show images in a float on cursor hover, not inline in the buffer
         doc = { inline = false, float = true },
       },
-      -- Sidebar file tree; also opens for `nvim <dir>` in place of netrw.
-      explorer = { enabled = true },
+      -- Sidebar file tree; oil handles directory buffers instead.
+      explorer = { enabled = true, replace_netrw = false },
       picker = {
         sources = {
           -- show dotfiles and gitignored files
