@@ -8,6 +8,30 @@ vim.lsp.enable { 'ty', 'ruff' }
 -- Markdown notes: wikilinks, backlinks, daily notes (home.nix)
 vim.lsp.enable 'markdown_oxide'
 
+-- :Today opens today's daily note from anywhere in the vault (cwd), unlike
+-- :LspToday which only exists once markdown-oxide is attached. Reads the
+-- same daily_notes_folder and dailynote keys from .moxide.toml.
+vim.api.nvim_create_user_command('Today', function()
+  local opts = { daily_notes_folder = '', dailynote = '%Y-%m-%d' }
+  local f = io.open '.moxide.toml'
+  if f then
+    for line in f:lines() do
+      local key, value = line:match '^%s*([%w_]+)%s*=%s*"(.-)"'
+      if key and opts[key] then
+        opts[key] = value
+      end
+    end
+    f:close()
+  end
+  local path = os.date(opts.dailynote) .. '.md'
+  if opts.daily_notes_folder ~= '' then
+    path = vim.fs.joinpath(opts.daily_notes_folder, path)
+  end
+  vim.fn.mkdir(vim.fs.dirname(path), 'p')
+  vim.cmd.edit(path)
+end, { desc = "Open today's daily note" })
+vim.keymap.set('n', '<leader>d', '<cmd>Today<cr>', { desc = "Today's daily note" })
+
 -- Nix and Lua (home.nix). nixd formats with nixfmt; Lua is formatted by
 -- stylua (.stylua.toml), so lua_ls's own formatter is off.
 vim.lsp.config('nixd', {
