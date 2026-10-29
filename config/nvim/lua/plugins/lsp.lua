@@ -10,6 +10,9 @@ return {
       -- ty and ruff pick up the project's .venv on their own.
       vim.lsp.enable { 'ty', 'ruff' }
 
+      -- Markdown notes: wikilinks, backlinks, daily notes (home.nix)
+      vim.lsp.enable 'markdown_oxide'
+
       -- Leave hover to ty; ruff's hover only explains noqa codes.
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('lsp-ruff-no-hover', {}),

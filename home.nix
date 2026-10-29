@@ -54,6 +54,7 @@ in
     ty
     shfmt
     lua-language-server
+    markdown-oxide # markdown notes LSP (nvim lsp.lua)
     tree-sitter # nvim-treesitter (main) builds parsers with it
     luarocks
     oxfmt
