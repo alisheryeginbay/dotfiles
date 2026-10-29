@@ -155,7 +155,6 @@ in
       persistent-apps = [
         "/Applications/Helium.app"
         "/Users/alisher/Applications/Home Manager Apps/Ghostty.app"
-        "/Users/alisher/Applications/Home Manager Apps/Emacs Client.app"
         "/Applications/Amgi.app"
       ];
     };
@@ -210,9 +209,6 @@ in
     };
 
     CustomUserPreferences = {
-      # Thinner text in Emacs (the daemon runs inside Emacs.app for this).
-      "org.gnu.Emacs".AppleFontSmoothing = 0;
-
       # AirDrop visible to contacts only, not everyone nearby.
       "com.apple.sharingd".DiscoverableMode = "Contacts Only";
 

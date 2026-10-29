@@ -79,24 +79,7 @@ in
     djvulibre
     mpv
 
-    # LaTeX for org previews/export and the occasional paper. Add packages
-    # here when a document fails with "File `foo.sty' not found".
-    (texliveSmall.withPackages (
-      ps: with ps; [
-        latexmk
-        dvisvgm # org-preview-latex-default-process
-        digestif # LSP for eglot
-        # org-latex-default-packages-alist beyond scheme-small
-        wrapfig
-        ulem
-        capt-of
-        # papers
-        biblatex
-        biber
-      ]
-    ))
-
-    # Typst: compiler, language server (eglot) and formatter (apheleia).
+    # Typst: compiler, language server and formatter.
     typst
     tinymist
     typstyle
@@ -124,42 +107,9 @@ in
       ];
     })
 
-    # spelling
-    enchant
-    hunspell
-
     # apps (copied to ~/Applications/Home Manager Apps)
     anki-bin
     slack
-    # Dock launcher: a new frame on the Emacs daemon (see launchd.agents.emacs).
-    # Emacs.app itself would start a separate, cold Emacs that Cmd-Q quits.
-    (pkgs.runCommand "emacs-client-app" { } ''
-      app="$out/Applications/Emacs Client.app/Contents"
-      mkdir -p "$app/MacOS" "$app/Resources"
-      cp ${config.programs.emacs.finalPackage}/Applications/Emacs.app/Contents/Resources/Emacs.icns "$app/Resources/"
-      cat > "$app/Info.plist" <<EOF
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-      <dict>
-        <key>CFBundleName</key><string>Emacs Client</string>
-        <key>CFBundleIdentifier</key><string>org.gnu.EmacsClient</string>
-        <key>CFBundleExecutable</key><string>emacs-client</string>
-        <key>CFBundleIconFile</key><string>Emacs.icns</string>
-        <key>CFBundlePackageType</key><string>APPL</string>
-      </dict>
-      </plist>
-      EOF
-      cat > "$app/MacOS/emacs-client" <<EOF
-      #!/bin/sh
-      # -a "": start a daemon if the launchd one isn't up. The -e raises the
-      # new frame, which otherwise can open behind the current app.
-      exec ${config.programs.emacs.finalPackage}/bin/emacsclient -c -n -a "" \
-        -e '(select-frame-set-input-focus (selected-frame))'
-      EOF
-      chmod +x "$app/MacOS/emacs-client"
-    '')
-
     # fonts
     aporetic
 
@@ -198,8 +148,6 @@ in
       ls = "eza --all --long --group --group-directories-first --icons --header --time-style long-iso";
       grt = ''cd "$(git rev-parse --show-toplevel)"'';
       cat = "bat";
-      e = "emacsclient -n";
-      ec = "emacsclient -c -n";
     };
   };
 
@@ -331,111 +279,6 @@ in
   xdg.configFile."sesh/sesh.toml".source =
     config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/sesh.toml";
 
-  programs.emacs = {
-    enable = true;
-    package = pkgs.emacs;
-    extraPackages =
-      epkgs: with epkgs; [
-        # evil
-        evil
-        evil-collection
-        evil-nerd-commenter
-        evil-mc
-        general
-        disable-mouse
-
-        # completion
-        vertico
-        orderless
-        marginalia
-        consult
-        corfu
-        cape
-
-        # editing
-        apheleia
-        olivetti
-        jinx
-        mw-thesaurus
-        pdf-tools
-        exec-path-from-shell
-        magit
-
-        # languages
-        eldoc-box
-        code-cells
-        pet
-        ess
-        auctex
-        cdlatex
-        typst-ts-mode
-        (treesit-grammars.with-grammars (
-          g: with g; [
-            tree-sitter-bash
-            tree-sitter-markdown
-            tree-sitter-markdown-inline
-            tree-sitter-rust
-            tree-sitter-typst
-          ]
-        ))
-
-        # org
-        org-roam
-        org-edna
-        org-noter
-        citar
-      ];
-  };
-
-  # Config is versioned here; everything else in ~/.config/emacs (elpa,
-  # caches, org-roam.db, secrets.el, custom.el) stays local state.
-  # Out-of-store links keep the files editable from Emacs.
-  xdg.configFile."emacs/early-init.el".source =
-    config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/emacs/early-init.el";
-  xdg.configFile."emacs/init.el".source =
-    config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/emacs/init.el";
-  xdg.configFile."emacs/lisp".source =
-    config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/emacs/lisp";
-  xdg.configFile."emacs/dict".source =
-    config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/emacs/dict";
-
-  launchd.agents.emacs = {
-    enable = true;
-    config = {
-      # Run the binary inside Emacs.app so macOS treats the daemon as
-      # org.gnu.Emacs and applies its per-app defaults (AppleFontSmoothing).
-      ProgramArguments = [
-        "${config.programs.emacs.finalPackage}/Applications/Emacs.app/Contents/MacOS/Emacs"
-        "--fg-daemon"
-      ];
-      RunAtLoad = true;
-      KeepAlive = true;
-      StandardOutPath = logPath "emacs-daemon";
-      StandardErrorPath = logPath "emacs-daemon";
-    };
-  };
-
-  # Re-themes Emacs the moment macOS switches light/dark
-  # (see my/apply-system-theme in config/emacs/lisp/editor.el).
-  launchd.agents.appearance-watch = {
-    enable = true;
-    config = {
-      ProgramArguments = [
-        "/usr/bin/osascript"
-        "-l"
-        "JavaScript"
-        "${./scripts/appearance-watch.js}"
-        "${config.programs.emacs.finalPackage}/bin/emacsclient"
-        "--no-wait"
-        "--eval"
-        "(my/apply-system-theme)"
-      ];
-      RunAtLoad = true;
-      KeepAlive = true;
-      StandardErrorPath = logPath "appearance-watch";
-    };
-  };
-
   # Daily at noon; launchd runs a missed job on wake.
   launchd.agents.restic-backup = {
     enable = true;
@@ -527,10 +370,6 @@ in
       fi
     done
   '';
-
-  # Personal dictionary; out-of-store so spell checkers can add words.
-  xdg.configFile."enchant/en_US.dic".source =
-    config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/enchant/en_US.dic";
 
   # Raycast keeps quicklinks in its own encrypted database, so this is a
   # file for Raycast's "Import Quicklinks" command. The import has no alias

@@ -99,7 +99,7 @@
   kk  (multi (layer-switch qwerty) f16)
   ja  (multi (layer-switch qwerty) f17)
 
-  ;; Caps Lock: tap = Escape (for evil), hold = Control (for Emacs chords).
+  ;; Caps Lock: tap = Escape, hold = Control.
   ;; tap-hold-press turns into Control as soon as another key is pressed,
   ;; so fast chords like C-x don't wait for the timeout.
   cap (tap-hold-press 200 200 esc lctl)
