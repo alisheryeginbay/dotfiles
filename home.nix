@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   # Public half of the Secretive (Secure Enclave) key: GitHub auth and commit
@@ -20,15 +25,17 @@ let
   '';
   logPath = name: "${config.home.homeDirectory}/Library/Logs/${name}.log";
   # Runs a shell command; on failure, posts a macOS notification pointing at the log.
-  notifyOnFailure = name: cmd: pkgs.writeShellScript name ''
-    {
-      ${cmd}
-    } || {
-      status=$?
-      /usr/bin/osascript -e "display notification \"Exit $status. See ~/Library/Logs/${name}.log\" with title \"${name} failed\""
-      exit $status
-    }
-  '';
+  notifyOnFailure =
+    name: cmd:
+    pkgs.writeShellScript name ''
+      {
+        ${cmd}
+      } || {
+        status=$?
+        /usr/bin/osascript -e "display notification \"Exit $status. See ~/Library/Logs/${name}.log\" with title \"${name} failed\""
+        exit $status
+      }
+    '';
 in
 {
   home.username = "alisher";
@@ -74,18 +81,20 @@ in
 
     # LaTeX for org previews/export and the occasional paper. Add packages
     # here when a document fails with "File `foo.sty' not found".
-    (texliveSmall.withPackages (ps: with ps; [
-      latexmk
-      dvisvgm # org-preview-latex-default-process
-      digestif # LSP for eglot
-      # org-latex-default-packages-alist beyond scheme-small
-      wrapfig
-      ulem
-      capt-of
-      # papers
-      biblatex
-      biber
-    ]))
+    (texliveSmall.withPackages (
+      ps: with ps; [
+        latexmk
+        dvisvgm # org-preview-latex-default-process
+        digestif # LSP for eglot
+        # org-latex-default-packages-alist beyond scheme-small
+        wrapfig
+        ulem
+        capt-of
+        # papers
+        biblatex
+        biber
+      ]
+    ))
 
     # Typst: compiler, language server (eglot) and formatter (apheleia).
     typst
@@ -96,8 +105,21 @@ in
     # Add CRAN packages to the list (install.packages() won't persist).
     (rWrapper.override {
       packages = with rPackages; [
-        boot class cluster codetools foreign KernSmooth lattice MASS Matrix
-        mgcv nlme nnet rpart spatial survival
+        boot
+        class
+        cluster
+        codetools
+        foreign
+        KernSmooth
+        lattice
+        MASS
+        Matrix
+        mgcv
+        nlme
+        nnet
+        rpart
+        spatial
+        survival
         ggplot2
       ];
     })
@@ -201,7 +223,10 @@ in
   programs.starship.enable = true;
   programs.zoxide = {
     enable = true;
-    options = [ "--cmd" "cd" ];
+    options = [
+      "--cmd"
+      "cd"
+    ];
   };
 
   programs.git = {
@@ -278,8 +303,7 @@ in
   };
 
   # Out-of-store symlink so lazy.nvim can still write lazy-lock.json.
-  xdg.configFile."nvim".source =
-    config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/nvim";
+  xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/nvim";
 
   programs.tmux = {
     enable = true;
@@ -301,8 +325,7 @@ in
   # Placed before the plugins (which home-manager loads at order 1000):
   # continuum hooks its auto-save into status-right, so status-right has to
   # be set before it loads or the hook gets overwritten.
-  xdg.configFile."tmux/tmux.conf".text =
-    lib.mkOrder 600 (builtins.readFile ./config/tmux.conf);
+  xdg.configFile."tmux/tmux.conf".text = lib.mkOrder 600 (builtins.readFile ./config/tmux.conf);
 
   # Out-of-store so preset edits apply without a rebuild.
   xdg.configFile."sesh/sesh.toml".source =
@@ -311,54 +334,57 @@ in
   programs.emacs = {
     enable = true;
     package = pkgs.emacs;
-    extraPackages = epkgs: with epkgs; [
-      # evil
-      evil
-      evil-collection
-      evil-nerd-commenter
-      evil-mc
-      general
-      disable-mouse
+    extraPackages =
+      epkgs: with epkgs; [
+        # evil
+        evil
+        evil-collection
+        evil-nerd-commenter
+        evil-mc
+        general
+        disable-mouse
 
-      # completion
-      vertico
-      orderless
-      marginalia
-      consult
-      corfu
-      cape
+        # completion
+        vertico
+        orderless
+        marginalia
+        consult
+        corfu
+        cape
 
-      # editing
-      apheleia
-      olivetti
-      jinx
-      mw-thesaurus
-      pdf-tools
-      exec-path-from-shell
-      magit
+        # editing
+        apheleia
+        olivetti
+        jinx
+        mw-thesaurus
+        pdf-tools
+        exec-path-from-shell
+        magit
 
-      # languages
-      eldoc-box
-      code-cells
-      pet
-      ess
-      auctex
-      cdlatex
-      typst-ts-mode
-      (treesit-grammars.with-grammars (g: with g; [
-        tree-sitter-bash
-        tree-sitter-markdown
-        tree-sitter-markdown-inline
-        tree-sitter-rust
-        tree-sitter-typst
-      ]))
+        # languages
+        eldoc-box
+        code-cells
+        pet
+        ess
+        auctex
+        cdlatex
+        typst-ts-mode
+        (treesit-grammars.with-grammars (
+          g: with g; [
+            tree-sitter-bash
+            tree-sitter-markdown
+            tree-sitter-markdown-inline
+            tree-sitter-rust
+            tree-sitter-typst
+          ]
+        ))
 
-      # org
-      org-roam
-      org-edna
-      org-noter
-      citar
-    ];
+        # org
+        org-roam
+        org-edna
+        org-noter
+        citar
+      ];
   };
 
   # Config is versioned here; everything else in ~/.config/emacs (elpa,
@@ -422,7 +448,12 @@ in
             "$HOME/.local/share/plock"
         ''}"
       ];
-      StartCalendarInterval = [ { Hour = 12; Minute = 0; } ];
+      StartCalendarInterval = [
+        {
+          Hour = 12;
+          Minute = 0;
+        }
+      ];
       LowPriorityIO = true;
       ProcessType = "Background";
       StandardOutPath = logPath "restic-backup";
@@ -441,7 +472,13 @@ in
           ${lib.getExe resticB2} check
         ''}"
       ];
-      StartCalendarInterval = [ { Weekday = 0; Hour = 13; Minute = 0; } ];
+      StartCalendarInterval = [
+        {
+          Weekday = 0;
+          Hour = 13;
+          Minute = 0;
+        }
+      ];
       LowPriorityIO = true;
       ProcessType = "Background";
       StandardOutPath = logPath "restic-prune";
@@ -463,8 +500,9 @@ in
       f17 : ${lib.getExe pkgs.macism} com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese
     '';
   };
-  launchd.agents.skhd.config.ProgramArguments =
-    lib.mkForce [ "/Library/Application Support/skhd/skhd" ];
+  launchd.agents.skhd.config.ProgramArguments = lib.mkForce [
+    "/Library/Application Support/skhd/skhd"
+  ];
 
   # AirPlay Receiver off; it listens on all interfaces.
   targets.darwin.currentHostDefaults."com.apple.controlcenter".AirplayReceiverEnabled = false;
@@ -499,7 +537,11 @@ in
   # field: set each alias by hand in Settings → Extensions → Quicklinks.
   xdg.configFile."raycast/quicklinks.json".text =
     let
-      link = alias: name: url: { name = "${name} (${alias})"; link = url; openWith = "Helium"; };
+      link = alias: name: url: {
+        name = "${name} (${alias})";
+        link = url;
+        openWith = "Helium";
+      };
     in
     builtins.toJSON [
       (link "lw" "LessWrong" "https://www.lesswrong.com/")

@@ -21,15 +21,14 @@ in
 {
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  environment.systemPackages =
-    [ pkgs.vim
-      # Ghostty points TERMINFO into alisher's ~/Applications, which root
-      # shells (sudo -i) don't see, so install xterm-ghostty system-wide.
-      pkgs.ghostty-bin.terminfo
-    ];
+  environment.systemPackages = [
+    pkgs.vim
+    # Ghostty points TERMINFO into alisher's ~/Applications, which root
+    # shells (sudo -i) don't see, so install xterm-ghostty system-wide.
+    pkgs.ghostty-bin.terminfo
+  ];
 
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (pkgs.lib.getName pkg) [ "slack" ];
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [ "slack" ];
 
   # Necessary for using flakes on this system.
   nix.settings.experimental-features = "nix-command flakes";
@@ -37,7 +36,11 @@ in
   # Weekly cleanup of the store.
   nix.gc = {
     automatic = true;
-    interval = { Weekday = 0; Hour = 3; Minute = 0; };
+    interval = {
+      Weekday = 0;
+      Hour = 3;
+      Minute = 0;
+    };
     options = "--delete-older-than 30d";
   };
   nix.optimise.automatic = true;
@@ -254,7 +257,10 @@ in
 
     casks = [
       # core
-      { name = "bitwarden"; args.appdir = "~/Applications"; }
+      {
+        name = "bitwarden";
+        args.appdir = "~/Applications";
+      }
       "secretive" # SSH keys in the Secure Enclave; must live in /Applications
       "raycast"
       "karabiner-elements" # provides the virtual HID driver kanata needs
@@ -272,7 +278,7 @@ in
 
       # tools
       "ollama-app"
-			"claude-code"
+      "claude-code"
 
       # work / study
       "figma"

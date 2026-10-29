@@ -1,5 +1,5 @@
 return {
-	{ "miikanissi/modus-themes.nvim", priority = 1000 },
+  { 'miikanissi/modus-themes.nvim', priority = 1000 },
   { 'nvim-tree/nvim-web-devicons', lazy = true },
   {
     'nvim-tree/nvim-tree.lua',

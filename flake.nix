@@ -9,21 +9,28 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nix-darwin, home-manager, ... }: {
-    # System and user config together:
-    # $ sudo darwin-rebuild switch --flake path:/private/etc/nix-darwin#MacBook-Pro
-    darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
-      specialArgs = { inherit self; };
-      modules = [
-        ./darwin.nix
-        home-manager.darwinModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.backupFileExtension = "hm-backup";
-          home-manager.users.alisher = import ./home.nix;
-        }
-      ];
+  outputs =
+    {
+      self,
+      nix-darwin,
+      home-manager,
+      ...
+    }:
+    {
+      # System and user config together:
+      # $ sudo darwin-rebuild switch --flake path:/private/etc/nix-darwin#MacBook-Pro
+      darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
+        specialArgs = { inherit self; };
+        modules = [
+          ./darwin.nix
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "hm-backup";
+            home-manager.users.alisher = import ./home.nix;
+          }
+        ];
+      };
     };
-  };
 }

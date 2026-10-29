@@ -31,7 +31,9 @@ vim.opt.clipboard = 'unnamedplus'
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('highlight-yank', {}),
-  callback = function() vim.hl.on_yank() end,
+  callback = function()
+    vim.hl.on_yank()
+  end,
 })
 
 vim.diagnostic.config {
