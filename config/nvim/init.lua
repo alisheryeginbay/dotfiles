@@ -9,6 +9,7 @@ vim.o.scrolloff = 8
 vim.opt.mouse = ''
 
 require 'config.lazy'
+require 'config.lsp'
 
 -- Picks Operandi or Vivendi from 'background', which Neovim detects from
 -- the terminal (and updates when Ghostty switches).
