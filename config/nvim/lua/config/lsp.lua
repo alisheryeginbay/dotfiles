@@ -52,6 +52,12 @@ vim.lsp.config('lua_ls', {
 })
 vim.lsp.enable { 'nixd', 'lua_ls', 'stylua' }
 
+-- Typst: tinymist for completion/diagnostics, formats with typstyle (home.nix).
+vim.lsp.config('tinymist', {
+  settings = { formatterMode = 'typstyle' },
+})
+vim.lsp.enable 'tinymist'
+
 -- Inferred types and parameter names inline.
 vim.lsp.inlay_hint.enable()
 

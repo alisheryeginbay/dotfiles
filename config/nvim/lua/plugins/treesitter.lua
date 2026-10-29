@@ -19,6 +19,7 @@ return {
         'fish',
         'bash',
         'json',
+        'typst',
       }
       -- Start treesitter for any filetype that has a parser installed.
       vim.api.nvim_create_autocmd('FileType', {

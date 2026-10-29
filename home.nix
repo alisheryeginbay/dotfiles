@@ -83,6 +83,7 @@ in
     typst
     tinymist
     typstyle
+    websocat # typst-preview.nvim talks to tinymist over it
 
     # R plus the "recommended" packages the official installer bundles.
     # Add CRAN packages to the list (install.packages() won't persist).
