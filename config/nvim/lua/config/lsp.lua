@@ -8,15 +8,16 @@ vim.lsp.enable { 'ty', 'ruff' }
 -- Markdown notes: wikilinks, backlinks, daily notes (home.nix)
 vim.lsp.enable 'markdown_oxide'
 
--- Nix and Lua (home.nix). Their formatters are off so format-on-save
--- doesn't restyle files that were never formatted with them.
-local no_format = function(client)
-  client.server_capabilities.documentFormattingProvider = false
-  client.server_capabilities.documentRangeFormattingProvider = false
-end
-vim.lsp.config('nixd', { on_attach = no_format })
+-- Nix and Lua (home.nix). nixd formats with nixfmt; Lua is formatted by
+-- stylua (.stylua.toml), so lua_ls's own formatter is off.
+vim.lsp.config('nixd', {
+  settings = { nixd = { formatting = { command = { 'nixfmt' } } } },
+})
 vim.lsp.config('lua_ls', {
-  on_attach = no_format,
+  on_attach = function(client)
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
+  end,
   settings = {
     Lua = {
       runtime = { version = 'LuaJIT' },
@@ -25,7 +26,7 @@ vim.lsp.config('lua_ls', {
     },
   },
 })
-vim.lsp.enable { 'nixd', 'lua_ls' }
+vim.lsp.enable { 'nixd', 'lua_ls', 'stylua' }
 
 -- Inferred types and parameter names inline.
 vim.lsp.inlay_hint.enable()
