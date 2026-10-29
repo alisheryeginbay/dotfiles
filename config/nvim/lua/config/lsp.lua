@@ -8,6 +8,28 @@ vim.lsp.enable { 'ty', 'ruff' }
 -- Markdown notes: wikilinks, backlinks, daily notes (home.nix)
 vim.lsp.enable 'markdown_oxide'
 
+-- Nix and Lua (home.nix). Their formatters are off so format-on-save
+-- doesn't restyle files that were never formatted with them.
+local no_format = function(client)
+  client.server_capabilities.documentFormattingProvider = false
+  client.server_capabilities.documentRangeFormattingProvider = false
+end
+vim.lsp.config('nixd', { on_attach = no_format })
+vim.lsp.config('lua_ls', {
+  on_attach = no_format,
+  settings = {
+    Lua = {
+      runtime = { version = 'LuaJIT' },
+      diagnostics = { globals = { 'vim' } },
+      workspace = { library = { vim.env.VIMRUNTIME }, checkThirdParty = false },
+    },
+  },
+})
+vim.lsp.enable { 'nixd', 'lua_ls' }
+
+-- Inferred types and parameter names inline.
+vim.lsp.inlay_hint.enable()
+
 -- Leave hover to ty; ruff's hover only explains noqa codes.
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('lsp-ruff-no-hover', {}),

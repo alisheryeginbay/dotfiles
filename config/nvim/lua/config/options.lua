@@ -1,7 +1,16 @@
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
 
-vim.opt.termguicolors = true
+vim.opt.scrolloff = 8
+vim.opt.mouse = ''
+vim.opt.signcolumn = 'yes'
+vim.opt.undofile = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+vim.opt.inccommand = 'split'
 
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -18,13 +27,16 @@ for _, key in ipairs { 'j', 'k', '<Down>', '<Up>' } do
 end
 vim.opt.breakindent = true
 
-vim.o.cmdheight = 1
-
 vim.opt.clipboard = 'unnamedplus'
 
-vim.opt.conceallevel = 0
+vim.api.nvim_create_autocmd('TextYankPost', {
+  group = vim.api.nvim_create_augroup('highlight-yank', {}),
+  callback = function() vim.hl.on_yank() end,
+})
 
 vim.diagnostic.config {
+  -- Full message under the cursor's line only.
+  virtual_lines = { current_line = true },
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = '󰅚',

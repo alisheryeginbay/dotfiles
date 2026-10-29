@@ -5,10 +5,12 @@ return {
     lazy = false,
     build = ':TSUpdate',
     config = function()
-      local parsers = { 'r', 'rnoweb', 'markdown', 'markdown_inline', 'yaml', 'python' }
-      require('nvim-treesitter').install(parsers)
+      require('nvim-treesitter').install {
+        'r', 'rnoweb', 'markdown', 'markdown_inline', 'yaml', 'python',
+        'rust', 'toml', 'nix', 'lua', 'fish', 'bash', 'json',
+      }
+      -- Start treesitter for any filetype that has a parser installed.
       vim.api.nvim_create_autocmd('FileType', {
-        pattern = { 'r', 'rmd', 'quarto', 'rnoweb', 'markdown', 'yaml', 'python' },
         callback = function() pcall(vim.treesitter.start) end,
       })
     end,
