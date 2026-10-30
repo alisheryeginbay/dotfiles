@@ -350,6 +350,9 @@ in
 
   # Rift tiling WM (installed by Homebrew in darwin.nix).
   launchd.agents.rift = {
+  # Out-of-store symlink so hot reload and Rift's Settings window work.
+  xdg.configFile."rift/config.toml".source =
+    config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/rift.toml";
     enable = true;
     config = {
       ProgramArguments = [ "/opt/homebrew/bin/rift" ];
