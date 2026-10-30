@@ -149,6 +149,7 @@ in
       ls = "eza --all --long --group --group-directories-first --icons --header --time-style long-iso";
       grt = ''cd "$(git rev-parse --show-toplevel)"'';
       cat = "bat";
+      emptytrash = "osascript -e 'tell application \"Finder\" to empty trash'";
     };
   };
 
@@ -353,10 +354,10 @@ in
   ];
 
   # Rift tiling WM (installed by Homebrew in darwin.nix).
-  launchd.agents.rift = {
   # Out-of-store symlink so hot reload and Rift's Settings window work.
   xdg.configFile."rift/config.toml".source =
     config.lib.file.mkOutOfStoreSymlink "/etc/nix-darwin/config/rift.toml";
+  launchd.agents.rift = {
     enable = true;
     config = {
       ProgramArguments = [ "/opt/homebrew/bin/rift" ];
