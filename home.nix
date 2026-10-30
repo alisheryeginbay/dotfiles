@@ -348,6 +348,20 @@ in
     "/Library/Application Support/skhd/skhd"
   ];
 
+  # Rift tiling WM (installed by Homebrew in darwin.nix).
+  launchd.agents.rift = {
+    enable = true;
+    config = {
+      ProgramArguments = [ "/opt/homebrew/bin/rift" ];
+      RunAtLoad = true;
+      KeepAlive = true;
+      ProcessType = "Interactive";
+      EnvironmentVariables.LANG = "en_US.UTF-8";
+      StandardOutPath = logPath "rift";
+      StandardErrorPath = logPath "rift";
+    };
+  };
+
   # AirPlay Receiver off; it listens on all interfaces.
   targets.darwin.currentHostDefaults."com.apple.controlcenter".AirplayReceiverEnabled = false;
 

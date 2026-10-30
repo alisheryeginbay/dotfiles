@@ -160,6 +160,7 @@ in
     };
 
     WindowManager.GloballyEnabled = false; # Stage Manager off
+    spaces.spans-displays = false; # "Displays have separate Spaces", needed by rift
 
     # The folder is created by home.nix; macOS falls back to the Desktop
     # if it's missing.
@@ -241,11 +242,13 @@ in
 
     taps = [
       "allenap/utils"
+      "acsandmann/tap"
     ];
 
     brews = [
       "mole" # nixpkgs' mole is a different program
       "allenap/utils/rust-petname"
+      "acsandmann/tap/rift" # tiling WM; not in nixpkgs, run by home.nix
       "ffmpeg"
       "sox"
       "mas" # installs masApps below
