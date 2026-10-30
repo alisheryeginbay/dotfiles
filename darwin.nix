@@ -111,6 +111,9 @@ in
       dscl . -create /Users/alisher UserShell "$fish"
     fi
 
+    # Don't dim the display on battery.
+    pmset -b lessbright 0
+
     # Restart the Dock again once Homebrew and home-manager have installed apps.
     killall -qu alisher Dock || true
   '';
