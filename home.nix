@@ -342,6 +342,10 @@ in
       f15 : ${lib.getExe pkgs.macism} com.apple.inputmethod.Korean.2SetKorean
       f16 : ${lib.getExe pkgs.macism} com.apple.keylayout.Kazakh
       f17 : ${lib.getExe pkgs.macism} com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese
+
+      # Disable the macOS app switcher
+      cmd - tab : true
+      cmd + shift - tab : true
     '';
   };
   launchd.agents.skhd.config.ProgramArguments = lib.mkForce [
