@@ -49,3 +49,5 @@ runs as root), and `/private/etc` because `/etc` is a symlink.
      `/Applications/.Karabiner-VirtualHIDDevice-Manager.app/Contents/MacOS/Karabiner-VirtualHIDDevice-Manager activate`,
      then allow it in General → Login Items & Extensions → Driver Extensions.
   4. Restart: `sudo launchctl kickstart -k system/org.nixos.kanata`.
+- **Helium:** flags aren't managed here. Set by hand:
+  `helium://flags/#omnibox-autocomplete-filtering` → search suggestions only.
