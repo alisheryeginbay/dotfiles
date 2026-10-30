@@ -393,31 +393,4 @@ in
       fi
     done
   '';
-
-  # Raycast keeps quicklinks in its own encrypted database, so this is a
-  # file for Raycast's "Import Quicklinks" command. The import has no alias
-  # field: set each alias by hand in Settings → Extensions → Quicklinks.
-  xdg.configFile."raycast/quicklinks.json".text =
-    let
-      link = alias: name: url: {
-        name = "${name} (${alias})";
-        link = url;
-        openWith = "Helium";
-      };
-    in
-    builtins.toJSON [
-      (link "lw" "LessWrong" "https://www.lesswrong.com/")
-      (link "af" "Alignment Forum" "https://www.alignmentforum.org/")
-      (link "wk" "Wikipedia" "https://en.wikipedia.org/")
-      (link "wkt" "Wiktionary" "https://en.wiktionary.org/")
-      (link "gh" "GitHub" "https://github.com/")
-      (link "ppg" "Papago" "https://papago.naver.com/")
-      (link "gt" "Google Translate" "https://translate.google.com/")
-      (link "hf" "Hugging Face" "https://huggingface.co/")
-      (link "fm" "Fastmail" "https://app.fastmail.com/")
-      (link "cl" "Claude" "https://claude.ai/")
-      (link "hn" "Hacker News" "https://news.ycombinator.com/")
-      (link "mw" "Merriam-Webster" "https://www.merriam-webster.com/")
-      (link "mwt" "Merriam-Webster Thesaurus" "https://www.merriam-webster.com/thesaurus")
-    ];
 }
