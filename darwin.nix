@@ -159,6 +159,8 @@ in
       ];
     };
 
+    trackpad.TrackpadThreeFingerVertSwipeGesture = 0; # no three-finger swipe up/down
+
     WindowManager.GloballyEnabled = false; # Stage Manager off
     spaces.spans-displays = false; # "Displays have separate Spaces", needed by rift
 
