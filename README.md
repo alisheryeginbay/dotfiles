@@ -8,6 +8,7 @@ nix-darwin module) for my user, in one flake.
 | --- | --- | --- |
 | `home.nix` | CLI tools, fish, git, nvim, tmux, Ghostty, fonts, some GUI apps | `darwin-rebuild` |
 | `darwin.nix` | nix settings, macOS defaults, Homebrew casks, kanata daemon | `darwin-rebuild` |
+| `profiles/` | configuration profiles (.mobileconfig) | `darwin-rebuild`, then installed by hand |
 | `config/` | raw config files linked in by the above | |
 
 ## New Mac
@@ -51,3 +52,9 @@ runs as root), and `/private/etc` because `/etc` is a symlink.
   4. Restart: `sudo launchctl kickstart -k system/org.nixos.kanata`.
 - **Helium:** flags aren't managed here. Set by hand:
   `helium://flags/#omnibox-autocomplete-filtering` → search suggestions only.
+- **Profiles:** built into `/etc/mobileconfig`. macOS won't install them
+  silently, so after a rebuild that changes one:
+  `open /etc/mobileconfig/<name>.mobileconfig`, then approve it in System
+  Settings → General → Device Management. The NextDNS ID lives in
+  `secrets.nix` (gitignored; copy `secrets.example.nix`). Without it the
+  NextDNS profile and Helium's secure DNS are left out.
