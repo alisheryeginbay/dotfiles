@@ -79,6 +79,7 @@ app_rules = [
   { app_id = "com.apple.calculator", floating = true },
   { app_id = "com.apple.archiveutility", floating = true },
   { app_id = "com.bitwarden.desktop", floating = true },
+  { app_id = "net.imput.helium", title_regex = "^Bitwarden$", floating = true }, # extension pop-out
   { app_id = "com.maxgoedjen.Secretive.Host", floating = true },
   { app_id = "com.objective-see.lulu.app", floating = true },
   { app_id = "net.mullvad.vpn", floating = true },
