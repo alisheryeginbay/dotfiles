@@ -70,6 +70,7 @@ in
     luarocks
     oxfmt
     git-xet
+    jujutsu
 
     # documents / media
     pandoc
