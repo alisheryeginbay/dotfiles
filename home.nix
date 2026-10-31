@@ -237,6 +237,17 @@ in
     };
   };
 
+  programs.claude-code = {
+    enable = true;
+    package = null; # installed as a Homebrew cask (darwin.nix)
+    settings = {
+      tui = "fullscreen";
+      theme = "auto";
+      promptSuggestionEnabled = false;
+      awaySummaryEnabled = false;
+    };
+  };
+
   programs.ghostty = {
     enable = true;
     package = pkgs.ghostty-bin;
