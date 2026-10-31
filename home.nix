@@ -360,6 +360,9 @@ in
       # Disable the macOS app switcher
       cmd - tab : true
       cmd + shift - tab : true
+
+      # Disable minimize
+      cmd - m : true
     '';
   };
   launchd.agents.skhd.config.ProgramArguments = lib.mkForce [
