@@ -51,6 +51,7 @@ in
     ripgrep
     fastfetch
     macism
+    bottom # system monitor (btm)
 
     # dev
     bun
