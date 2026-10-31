@@ -160,7 +160,14 @@ move = "Alt + Shift"
 "Alt + Period" = { focus_display = "right" }
 "move + Period" = { move_window_to_display = { selector = "right" } }
 
-"Alt + Enter" = { exec = ["open", "-na", "Ghostty"] }
+# New window in the running Ghostty; launching it opens the first window.
+"Alt + Enter" = { exec = [
+  "osascript",
+  "-e", 'if application "Ghostty" is running then',
+  "-e", 'tell application "Ghostty" to new window',
+  "-e", 'end if',
+  "-e", 'tell application "Ghostty" to activate',
+] }
 
 # Keep [keys] above this line: TOML headers scope everything after them.
 [binding_modes.resize]
