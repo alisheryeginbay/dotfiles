@@ -71,6 +71,7 @@ in
     oxfmt
     git-xet
     jujutsu
+    hunk
 
     # documents / media
     pandoc
