@@ -257,7 +257,6 @@ in
       "allenap/utils/rust-petname"
       "acsandmann/tap/rift" # tiling WM; not in nixpkgs, run by home.nix
       "ffmpeg"
-      "sox"
       "mas" # installs masApps below
     ];
 
