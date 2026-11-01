@@ -23,7 +23,18 @@ let
     export RESTIC_PASSWORD_COMMAND="/usr/bin/security find-generic-password -s restic-b2 -a password -w"
     exec "/Library/Application Support/restic/restic" "$@"
   '';
-  logPath = name: "${config.home.homeDirectory}/Library/Logs/${name}.log";
+  aporeticNerdFont = pkgs.stdenvNoCC.mkDerivation {
+    pname = "aporetic-nerd-font";
+    version = "0-unstable-2025-10-14";
+    src = pkgs.fetchFromGitHub {
+      owner = "Echinoidea";
+      repo = "Aporetic-Nerd-Font";
+      rev = "88ae58addaa9240cf329b389afb21338748ec749";
+      hash = "sha256-wvzjwnLeaabfhjZCfGpqolalBslcI5oFAdwuQG9VbBI=";
+    };
+    installPhase = "install -Dm644 *.ttf -t $out/share/fonts/truetype";
+  };
+  logPath = name:"${config.home.homeDirectory}/Library/Logs/${name}.log";
   # Runs a shell command; on failure, posts a macOS notification pointing at the log.
   notifyOnFailure =
     name: cmd:
@@ -116,6 +127,8 @@ in
     slack
     # fonts
     aporetic
+    aporeticNerdFont
+    nerd-fonts.d2coding
 
     # misc
     restic
@@ -257,7 +270,11 @@ in
     settings = {
       shell-integration = "fish";
       shell-integration-features = "sudo,ssh-env";
-      font-family = "Aporetic Sans Mono";
+      # D2Coding covers Korean glyphs missing from Aporetic.
+      font-family = [
+        "AporeticSansMonoNerdFont"
+        "D2KodingLigature Nerd Font Mono"
+      ];
       font-size = 16;
       keybind = [ "shift+enter=text:\\n" ];
       window-save-state = "always";
