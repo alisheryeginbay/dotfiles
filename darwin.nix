@@ -286,7 +286,6 @@ in
       "claude-code"
 
       # work / study
-      "figma"
       "zotero" # nixpkgs build is broken on darwin
     ];
 
