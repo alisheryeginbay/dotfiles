@@ -15,13 +15,15 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Options first, so an install window at startup doesn't pick them up late.
+require 'config.options'
+
 -- Setup lazy.nvim
 require('lazy').setup {
   spec = {
     { import = 'plugins' },
   },
-  install = { colorscheme = { 'habamax' } },
+  install = { colorscheme = { 'modus' } },
   checker = { enabled = true, notify = false },
 }
 
-require 'config.options'
