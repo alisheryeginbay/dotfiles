@@ -98,6 +98,7 @@ in
     tinymist
     typstyle
     websocat # typst-preview.nvim talks to tinymist over it
+    pngpaste # img-clip.nvim reads clipboard images with it
 
     # R plus the "recommended" packages the official installer bundles.
     # Add CRAN packages to the list (install.packages() won't persist).
