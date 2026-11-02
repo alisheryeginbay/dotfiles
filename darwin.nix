@@ -284,6 +284,7 @@ in
       # tools
       "ollama-app"
       "claude-code"
+      "activitywatch" # nixpkgs build is linux-only
 
       # work / study
       "zotero" # nixpkgs build is broken on darwin
