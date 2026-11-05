@@ -15,7 +15,7 @@
 ;; Plain QWERTY positions -- used with the Russian, Korean, Kazakh and Japanese
 ;; input sources, and for English while learning Gallium
 (deflayer qwerty
-  esc       brdn brup mctl lpad _    _    prev pp   next mute vold volu
+  XX        brdn brup mctl lpad _    _    prev pp   next mute vold volu
   @grl       1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab       q    w    e    r    t    y    u    i    o    p    [    ]    \
   @cap      a    s    d    f    g    h    j    k    l    ;    '         ret
@@ -37,7 +37,7 @@
 
 ;; Gallium Rowstag (v2) -- ACTIVE: made for row-staggered keyboards like the MacBook's
 (deflayer gallium
-  esc       brdn brup mctl lpad _    _    prev pp   next mute vold volu
+  XX        brdn brup mctl lpad _    _    prev pp   next mute vold volu
   @grl       1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab       b    l    d    c    v    j    f    o    u    ,    [    ]    \
   @cap      n    r    t    s    g    y    h    a    e    i    /         ret
