@@ -1,6 +1,9 @@
 (defcfg
   ;; Place your OS specific configurations here, see: https://github.com/jtroo/kanata
 
+  ;; Tap-hold keys pressed within 150ms of the previous key are plain taps,
+  ;; so Space mid-sentence never turns on the nav layer.
+  tap-hold-require-prior-idle 150
 )
 ;; The config below uses ANSI, if you are on ISO you will have to modify it.
 (defsrc
@@ -20,7 +23,7 @@
   tab       q    w    e    r    t    y    u    i    o    p    [    ]    \
   @cap      a    s    d    f    g    h    j    k    l    ;    '         ret
   lsft      z    x    c    v    b    n    m    ,    .    /    rsft
-  lctl lmet lalt           spc                 @nav rmet rctl
+  lctl lmet lalt           @spc                ralt rmet rctl
 )
 
 ;; Simply uncomment the Gallium version you wish to use.
@@ -32,7 +35,7 @@
   tab       b    l    d    c    v    j    y    o    u    ,    [    ]    \
   @cap      n    r    t    s    g    p    h    a    e    i    /         ret
   lsft      x    q    m    w    z    k    f    '    ;    .    rsft
-  lctl lmet lalt           spc                 @nav rmet rctl
+  lctl lmet lalt           @spc                ralt rmet rctl
 )|#
 
 ;; Gallium Rowstag (v2) -- ACTIVE: made for row-staggered keyboards like the MacBook's
@@ -42,7 +45,7 @@
   tab       b    l    d    c    v    j    f    o    u    ,    [    ]    \
   @cap      n    r    t    s    g    y    h    a    e    i    /         ret
   lsft      x    q    m    w    z    k    p    '    ;    .    rsft
-  lctl lmet lalt           spc                 @nav rmet rctl
+  lctl lmet lalt           @spc                ralt rmet rctl
 )
 
 ;; Gallium Colstag angle modded
@@ -52,7 +55,7 @@
   tab       b    l    d    c    z    j    y    o    u    ,    [    ]    \
   @cap      n    r    t    s    v    p    h    a    e    i    /         ret
   lsft      q    m    w    g    x    k    f    '    ;    .    rsft
-  lctl lmet lalt           spc                 @nav rmet rctl
+  lctl lmet lalt           @spc                ralt rmet rctl
 )|#
 
 ;; Gallium Colstag angle modded QX swap reversed
@@ -62,7 +65,7 @@
   tab       b    l    d    c    z    j    y    o    u    ,    [    ]    \
   @cap      n    r    t    s    v    p    h    a    e    i    /         ret
   lsft      x    m    w    g    q    k    f    '    ;    .    rsft
-  lctl lmet lalt           spc                 @nav rmet rctl
+  lctl lmet lalt           @spc                ralt rmet rctl
 )|#
 
 ;; Gallium Rowstag angle modded
@@ -72,7 +75,7 @@
   tab       b    l    d    c    z    j    f    o    u    ,    [    ]    \
   @cap      n    r    t    s    v    y    h    a    e    i    /         ret
   lsft      q    m    w    g    x    k    p    '    ;    .    rsft
-  lctl lmet lalt           spc                 @nav rmet rctl
+  lctl lmet lalt           @spc                ralt rmet rctl
 )|#
 
 ;; Gallium Rowstag angle modded QX swap reversed
@@ -82,7 +85,7 @@
   tab       b    l    d    c    z    j    f    o    u    ,    [    ]    \
   @cap      n    r    t    s    v    y    h    a    e    i    /         ret
   lsft      x    m    w    g    q    k    p    '    ;    .    rsft
-  lctl lmet lalt           spc                 @nav rmet rctl
+  lctl lmet lalt           @spc                ralt rmet rctl
 )|#
 
 (defalias
@@ -104,8 +107,11 @@
   ;; so fast chords like C-x don't wait for the timeout.
   cap (tap-hold-press 200 200 esc lctl)
 
-  ;; Right Option: hold for the navigation layer
-  nav (layer-while-held nav)
+  ;; Space: tap = space, hold = navigation layer.
+  ;; tap-hold-release only picks the layer if another key is pressed and
+  ;; released while Space is down, so rolling into the next letter stays a space.
+  ;; Tap then quickly hold Space to auto-repeat spaces.
+  spc (tap-hold-release 200 200 spc (layer-while-held nav))
 )
 
 ;; Hold ` then press (physical QWERTY positions):
@@ -121,14 +127,17 @@
   _    _    _              _              _    _    _
 )
 
-;; Navigation layer (hold right Option). Arrows sit on the physical keys
-;; where QWERTY has h j k l, so they work the same in every layer.
+;; Navigation layer (hold Space). Keys are physical QWERTY positions,
+;; so they work the same in every layer.
 ;;   y = Home   u = Page Down   i = Page Up   o = End
+;;   h j k l = arrows   ; = Backspace   ' = Delete
+;;   a s d f = Ctrl Option Cmd Shift (hold, combine with the keys above)
+;;   z x c v b = Undo Cut Copy Paste Redo
 (deflayer nav
   _         _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    home pgdn pgup end  _    _    _    _
-  _    _    _    _    _    _    left down up   rght _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _
+  _    lctl lalt lmet lsft _    left down up   rght bspc del  _
+  _    M-z  M-x  M-c  M-v  M-S-z _   _    _    _    _    _
   _    _    _              _              _    _    _
 )

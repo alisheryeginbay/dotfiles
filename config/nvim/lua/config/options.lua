@@ -27,6 +27,10 @@ for _, key in ipairs { 'j', 'k', '<Down>', '<Up>' } do
 end
 vim.opt.breakindent = true
 
+-- PgDn/PgUp (kanata nav layer) scroll half a page like C-d/C-u.
+vim.keymap.set({ 'n', 'x' }, '<PageDown>', '<C-d>')
+vim.keymap.set({ 'n', 'x' }, '<PageUp>', '<C-u>')
+
 vim.opt.clipboard = 'unnamedplus'
 
 vim.api.nvim_create_autocmd('TextYankPost', {
