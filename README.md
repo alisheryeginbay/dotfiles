@@ -57,6 +57,4 @@ runs as root), and `/private/etc` because `/etc` is a symlink.
   `open /etc/mobileconfig/<name>.mobileconfig`, then approve it in System
   Settings → General → Device Management. For iOS devices, drag them into
   Apple Configurator from `~/Library/Mobileconfig` (plain copies, since
-  Configurator can't open the symlinks). The NextDNS ID lives in
-  `secrets.nix` (gitignored; copy `secrets.example.nix`). Without it the
-  NextDNS profile and Helium's secure DNS are left out.
+  Configurator can't open the symlinks).

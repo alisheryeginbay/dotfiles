@@ -11,15 +11,8 @@ let
   user = config.system.primaryUser;
   copies = "${config.users.users.${user}.home}/Library/Mobileconfig";
 
-  # secrets.nix is gitignored (see secrets.example.nix). Without it, the
-  # NextDNS parts are left out so a fresh clone still builds.
-  secrets =
-    if builtins.pathExists ../secrets.nix then
-      import ../secrets.nix
-    else
-      lib.warn "secrets.nix missing: building profiles without NextDNS" { };
-  nextdnsId = secrets.nextdnsId or null;
-  hasNextdns = nextdnsId != null;
+  # Cloudflare DNS over HTTPS, shared by the system and Helium.
+  dohUrl = "https://cloudflare-dns.com/dns-query";
 
   # uBlock Origin bundled with Helium. On macOS, extension policy is read from
   # the domain <browser bundle id>.extensions.<extension id>.
@@ -35,7 +28,7 @@ let
         settings = {
           allowUIAppInstallation = false;
           allowAppRemoval = false;
-          # allowWallpaperModification = false;
+          allowWallpaperModification = false;
           allowEraseContentAndSettings = false;
           allowAppClips = false;
           allowEnterpriseAppTrust = false;
@@ -54,7 +47,7 @@ let
     Helium = mkProfile {
       id = "com.yeginbay.profiles.helium";
       name = "Helium";
-      description = "Secure DNS, no incognito/guest/new profiles, no search suggestions, and locked uBlock Origin YouTube filters in Helium.";
+      description = "Cloudflare secure DNS, no incognito/guest/new profiles, no search suggestions, and locked uBlock Origin YouTube filters in Helium.";
       payloads = {
         browser = {
           type = "net.imput.helium";
@@ -67,10 +60,9 @@ let
 
             # No search suggestions in the address bar.
             SearchSuggestEnabled = false;
-          }
-          // lib.optionalAttrs hasNextdns {
+
             DnsOverHttpsMode = "secure";
-            DnsOverHttpsTemplates = "https://dns.nextdns.io/${nextdnsId}";
+            DnsOverHttpsTemplates = dohUrl;
           };
         };
 
@@ -95,20 +87,20 @@ let
         };
       };
     };
-  }
-  // lib.optionalAttrs hasNextdns {
-    # System-wide encrypted DNS (originally from apple.nextdns.io).
-    NextDNS = mkProfile {
+
+    # System-wide encrypted DNS. Keeps the old NextDNS identifier so
+    # installing it replaces that profile.
+    DNS = mkProfile {
       id = "com.yeginbay.profiles.nextdns";
-      name = "NextDNS";
-      description = "This profile enables NextDNS on all networks using the native Encrypted DNS feature.";
+      name = "Cloudflare DNS";
+      description = "Encrypted DNS through Cloudflare on all networks.";
       locked = true;
       payloads.dnsSettings = {
         type = "com.apple.dnsSettings.managed";
         settings = {
           DNSSettings = {
             DNSProtocol = "HTTPS";
-            ServerURL = "https://apple.dns.nextdns.io/${nextdnsId}";
+            ServerURL = dohUrl;
           };
           OnDemandRules = [
             {
