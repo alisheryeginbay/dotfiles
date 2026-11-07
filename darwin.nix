@@ -19,7 +19,10 @@ let
   });
 in
 {
-  imports = [ ./profiles ];
+  imports = [
+    ./profiles
+    ./focus.nix
+  ];
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
