@@ -292,6 +292,8 @@ in
 
     masApps = {
       WireGuard = 1451685025;
+      "Apple Configurator" = 1037126344;
+      Xcode = 497799835;
     };
   };
 }
