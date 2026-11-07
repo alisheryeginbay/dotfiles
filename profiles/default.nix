@@ -35,7 +35,18 @@ let
         settings = {
           allowUIAppInstallation = false;
           allowAppRemoval = false;
-          allowWallpaperModification = false;
+          # allowWallpaperModification = false;
+          allowEraseContentAndSettings = false;
+          allowAppClips = false;
+          allowEnterpriseAppTrust = false;
+          # Stops Airplane Mode from the lock screen, which cuts off Find My
+          allowLockScreenControlCenter = false;
+          forceAutomaticDateAndTime = true;
+          allowSpotlightInternetResults = false;
+          # Only hosts with the supervision identity can pair
+          allowHostPairing = false;
+          # Profiles can still be pushed from Apple Configurator
+          allowUIConfigurationProfileInstallation = false;
         };
       };
     };
