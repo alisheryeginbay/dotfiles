@@ -2,10 +2,14 @@
 # macOS only installs profiles by hand: after a rebuild that changes one,
 # `open /etc/mobileconfig/<name>.mobileconfig` and approve it in
 # System Settings → General → Device Management.
-{ lib, ... }:
+# Plain copies also go to ~/Library/Mobileconfig for dragging into Apple
+# Configurator, which can't follow the /nix/store symlinks.
+{ lib, config, ... }:
 
 let
   inherit (import ./lib.nix { inherit lib; }) mkProfile;
+  user = config.system.primaryUser;
+  copies = "${config.users.users.${user}.home}/Library/Mobileconfig";
 
   # secrets.nix is gitignored (see secrets.example.nix). Without it, the
   # NextDNS parts are left out so a fresh clone still builds.
@@ -126,4 +130,13 @@ in
   environment.etc = lib.mapAttrs' (
     name: text: lib.nameValuePair "mobileconfig/${name}.mobileconfig" { inherit text; }
   ) profiles;
+
+  # Plain, user-owned copies of /etc/mobileconfig
+  system.activationScripts.postActivation.text = lib.mkAfter ''
+    install -d -o ${user} -m 755 "${copies}"
+    rm -f "${copies}"/*.mobileconfig
+    for f in /etc/mobileconfig/*.mobileconfig; do
+      install -o ${user} -m 644 "$f" "${copies}"/
+    done
+  '';
 }
