@@ -131,8 +131,9 @@
 <text class="legend" x="264.0" y="346">r</text>
 <rect class="key" x="310.0" y="332" width="47" height="47" rx="6"/>
 <text class="legend" x="316.0" y="346">t</text>
-<rect class="key" x="362.0" y="332" width="47" height="47" rx="6"/>
+<rect class="on" x="362.0" y="332" width="47" height="47" rx="6"/>
 <text class="legend" x="368.0" y="346">y</text>
+<text class="action" x="385.5" y="366" text-anchor="middle">^</text>
 <rect class="on" x="414.0" y="332" width="47" height="47" rx="6"/>
 <text class="legend" x="420.0" y="346">u</text>
 <text class="action" x="437.5" y="366" text-anchor="middle">{</text>

@@ -144,12 +144,12 @@
 )
 
 ;; Symbol layer (hold Right Cmd). Physical QWERTY positions.
-;;   u = {   i = }   o = $
+;;   y = ^   u = {   i = }   o = $
 ;;   j = (   k = )   l = ;
 (deflayer symbols
   _         _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    S-[  S-]  S-4  _    _    _    _
+  _    _    _    _    _    _    S-6  S-[  S-]  S-4  _    _    _    _
   _    _    _    _    _    _    _    S-9  S-0  ;    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _              _              _    _    _
