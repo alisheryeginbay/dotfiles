@@ -1,0 +1,218 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="828" height="568" viewBox="0 0 828 568" font-family="-apple-system, Helvetica, Arial, sans-serif">
+<style>
+  .bg { fill: #ffffff; }
+  .key { fill: #f3f4f6; stroke: #d1d5db; }
+  .on { fill: #dbeafe; stroke: #3b82f6; }
+  .hold { fill: #fde68a; stroke: #d97706; }
+  .legend { fill: #9ca3af; font-size: 10px; }
+  .action { fill: #111827; font-size: 17px; font-weight: 600; }
+  .small { font-size: 13px; }
+  .title { fill: #111827; font-size: 18px; font-weight: 700; }
+  @media (prefers-color-scheme: dark) {
+    .bg { fill: #0d1117; }
+    .key { fill: #161b22; stroke: #30363d; }
+    .on { fill: #1e3a5f; stroke: #58a6ff; }
+    .hold { fill: #5c4310; stroke: #d29922; }
+    .legend { fill: #7d8590; }
+    .action, .title { fill: #e6edf3; }
+  }
+</style>
+<rect class="bg" width="828" height="568" rx="12"/>
+<text class="title" x="24" y="44">Nav — hold Space</text>
+<rect class="key" x="24" y="60" width="73.0" height="47" rx="6"/>
+<text class="legend" x="30" y="74">tab</text>
+<rect class="key" x="102.0" y="60" width="47" height="47" rx="6"/>
+<text class="legend" x="108.0" y="74">q</text>
+<rect class="key" x="154.0" y="60" width="47" height="47" rx="6"/>
+<text class="legend" x="160.0" y="74">w</text>
+<rect class="key" x="206.0" y="60" width="47" height="47" rx="6"/>
+<text class="legend" x="212.0" y="74">e</text>
+<rect class="key" x="258.0" y="60" width="47" height="47" rx="6"/>
+<text class="legend" x="264.0" y="74">r</text>
+<rect class="key" x="310.0" y="60" width="47" height="47" rx="6"/>
+<text class="legend" x="316.0" y="74">t</text>
+<rect class="on" x="362.0" y="60" width="47" height="47" rx="6"/>
+<text class="legend" x="368.0" y="74">y</text>
+<text class="action small" x="385.5" y="94" text-anchor="middle">PgUp</text>
+<rect class="on" x="414.0" y="60" width="47" height="47" rx="6"/>
+<text class="legend" x="420.0" y="74">u</text>
+<text class="action small" x="437.5" y="94" text-anchor="middle">Home</text>
+<rect class="on" x="466.0" y="60" width="47" height="47" rx="6"/>
+<text class="legend" x="472.0" y="74">i</text>
+<text class="action" x="489.5" y="94" text-anchor="middle">↑</text>
+<rect class="on" x="518.0" y="60" width="47" height="47" rx="6"/>
+<text class="legend" x="524.0" y="74">o</text>
+<text class="action small" x="541.5" y="94" text-anchor="middle">End</text>
+<rect class="key" x="570.0" y="60" width="47" height="47" rx="6"/>
+<text class="legend" x="576.0" y="74">p</text>
+<rect class="key" x="622.0" y="60" width="47" height="47" rx="6"/>
+<text class="legend" x="628.0" y="74">[</text>
+<rect class="key" x="674.0" y="60" width="47" height="47" rx="6"/>
+<text class="legend" x="680.0" y="74">]</text>
+<rect class="key" x="726.0" y="60" width="73.0" height="47" rx="6"/>
+<text class="legend" x="732.0" y="74">\</text>
+<rect class="key" x="24" y="112" width="86.0" height="47" rx="6"/>
+<text class="legend" x="30" y="126">caps</text>
+<rect class="key" x="115.0" y="112" width="47" height="47" rx="6"/>
+<text class="legend" x="121.0" y="126">a</text>
+<rect class="key" x="167.0" y="112" width="47" height="47" rx="6"/>
+<text class="legend" x="173.0" y="126">s</text>
+<rect class="key" x="219.0" y="112" width="47" height="47" rx="6"/>
+<text class="legend" x="225.0" y="126">d</text>
+<rect class="key" x="271.0" y="112" width="47" height="47" rx="6"/>
+<text class="legend" x="277.0" y="126">f</text>
+<rect class="key" x="323.0" y="112" width="47" height="47" rx="6"/>
+<text class="legend" x="329.0" y="126">g</text>
+<rect class="on" x="375.0" y="112" width="47" height="47" rx="6"/>
+<text class="legend" x="381.0" y="126">h</text>
+<text class="action small" x="398.5" y="146" text-anchor="middle">PgDn</text>
+<rect class="on" x="427.0" y="112" width="47" height="47" rx="6"/>
+<text class="legend" x="433.0" y="126">j</text>
+<text class="action" x="450.5" y="146" text-anchor="middle">←</text>
+<rect class="on" x="479.0" y="112" width="47" height="47" rx="6"/>
+<text class="legend" x="485.0" y="126">k</text>
+<text class="action" x="502.5" y="146" text-anchor="middle">↓</text>
+<rect class="on" x="531.0" y="112" width="47" height="47" rx="6"/>
+<text class="legend" x="537.0" y="126">l</text>
+<text class="action" x="554.5" y="146" text-anchor="middle">→</text>
+<rect class="on" x="583.0" y="112" width="47" height="47" rx="6"/>
+<text class="legend" x="589.0" y="126">;</text>
+<text class="action" x="606.5" y="146" text-anchor="middle">⌫</text>
+<rect class="key" x="635.0" y="112" width="47" height="47" rx="6"/>
+<text class="legend" x="641.0" y="126">'</text>
+<rect class="key" x="687.0" y="112" width="112.0" height="47" rx="6"/>
+<text class="legend" x="693.0" y="126">return</text>
+<rect class="key" x="24" y="164" width="112.0" height="47" rx="6"/>
+<text class="legend" x="30" y="178">shift</text>
+<rect class="key" x="141.0" y="164" width="47" height="47" rx="6"/>
+<text class="legend" x="147.0" y="178">z</text>
+<rect class="key" x="193.0" y="164" width="47" height="47" rx="6"/>
+<text class="legend" x="199.0" y="178">x</text>
+<rect class="key" x="245.0" y="164" width="47" height="47" rx="6"/>
+<text class="legend" x="251.0" y="178">c</text>
+<rect class="key" x="297.0" y="164" width="47" height="47" rx="6"/>
+<text class="legend" x="303.0" y="178">v</text>
+<rect class="key" x="349.0" y="164" width="47" height="47" rx="6"/>
+<text class="legend" x="355.0" y="178">b</text>
+<rect class="key" x="401.0" y="164" width="47" height="47" rx="6"/>
+<text class="legend" x="407.0" y="178">n</text>
+<rect class="key" x="453.0" y="164" width="47" height="47" rx="6"/>
+<text class="legend" x="459.0" y="178">m</text>
+<rect class="key" x="505.0" y="164" width="47" height="47" rx="6"/>
+<text class="legend" x="511.0" y="178">,</text>
+<rect class="key" x="557.0" y="164" width="47" height="47" rx="6"/>
+<text class="legend" x="563.0" y="178">.</text>
+<rect class="key" x="609.0" y="164" width="47" height="47" rx="6"/>
+<text class="legend" x="615.0" y="178">/</text>
+<rect class="key" x="661.0" y="164" width="138.0" height="47" rx="6"/>
+<text class="legend" x="667.0" y="178">shift</text>
+<rect class="key" x="24" y="216" width="73.0" height="47" rx="6"/>
+<text class="legend" x="30" y="230">ctrl</text>
+<rect class="key" x="102.0" y="216" width="73.0" height="47" rx="6"/>
+<text class="legend" x="108.0" y="230">opt</text>
+<rect class="key" x="180.0" y="216" width="86.0" height="47" rx="6"/>
+<text class="legend" x="186.0" y="230">cmd</text>
+<rect class="hold" x="271.0" y="216" width="333.0" height="47" rx="6"/>
+<text class="legend" x="277.0" y="230">space</text>
+<rect class="key" x="609.0" y="216" width="86.0" height="47" rx="6"/>
+<text class="legend" x="615.0" y="230">cmd</text>
+<rect class="key" x="700.0" y="216" width="99" height="47" rx="6"/>
+<text class="legend" x="706.0" y="230">opt</text>
+<text class="title" x="24" y="316">Symbols — hold Right Cmd</text>
+<rect class="key" x="24" y="332" width="73.0" height="47" rx="6"/>
+<text class="legend" x="30" y="346">tab</text>
+<rect class="key" x="102.0" y="332" width="47" height="47" rx="6"/>
+<text class="legend" x="108.0" y="346">q</text>
+<rect class="key" x="154.0" y="332" width="47" height="47" rx="6"/>
+<text class="legend" x="160.0" y="346">w</text>
+<rect class="key" x="206.0" y="332" width="47" height="47" rx="6"/>
+<text class="legend" x="212.0" y="346">e</text>
+<rect class="key" x="258.0" y="332" width="47" height="47" rx="6"/>
+<text class="legend" x="264.0" y="346">r</text>
+<rect class="key" x="310.0" y="332" width="47" height="47" rx="6"/>
+<text class="legend" x="316.0" y="346">t</text>
+<rect class="key" x="362.0" y="332" width="47" height="47" rx="6"/>
+<text class="legend" x="368.0" y="346">y</text>
+<rect class="on" x="414.0" y="332" width="47" height="47" rx="6"/>
+<text class="legend" x="420.0" y="346">u</text>
+<text class="action" x="437.5" y="366" text-anchor="middle">{</text>
+<rect class="on" x="466.0" y="332" width="47" height="47" rx="6"/>
+<text class="legend" x="472.0" y="346">i</text>
+<text class="action" x="489.5" y="366" text-anchor="middle">}</text>
+<rect class="on" x="518.0" y="332" width="47" height="47" rx="6"/>
+<text class="legend" x="524.0" y="346">o</text>
+<text class="action" x="541.5" y="366" text-anchor="middle">$</text>
+<rect class="key" x="570.0" y="332" width="47" height="47" rx="6"/>
+<text class="legend" x="576.0" y="346">p</text>
+<rect class="key" x="622.0" y="332" width="47" height="47" rx="6"/>
+<text class="legend" x="628.0" y="346">[</text>
+<rect class="key" x="674.0" y="332" width="47" height="47" rx="6"/>
+<text class="legend" x="680.0" y="346">]</text>
+<rect class="key" x="726.0" y="332" width="73.0" height="47" rx="6"/>
+<text class="legend" x="732.0" y="346">\</text>
+<rect class="key" x="24" y="384" width="86.0" height="47" rx="6"/>
+<text class="legend" x="30" y="398">caps</text>
+<rect class="key" x="115.0" y="384" width="47" height="47" rx="6"/>
+<text class="legend" x="121.0" y="398">a</text>
+<rect class="key" x="167.0" y="384" width="47" height="47" rx="6"/>
+<text class="legend" x="173.0" y="398">s</text>
+<rect class="key" x="219.0" y="384" width="47" height="47" rx="6"/>
+<text class="legend" x="225.0" y="398">d</text>
+<rect class="key" x="271.0" y="384" width="47" height="47" rx="6"/>
+<text class="legend" x="277.0" y="398">f</text>
+<rect class="key" x="323.0" y="384" width="47" height="47" rx="6"/>
+<text class="legend" x="329.0" y="398">g</text>
+<rect class="key" x="375.0" y="384" width="47" height="47" rx="6"/>
+<text class="legend" x="381.0" y="398">h</text>
+<rect class="on" x="427.0" y="384" width="47" height="47" rx="6"/>
+<text class="legend" x="433.0" y="398">j</text>
+<text class="action" x="450.5" y="418" text-anchor="middle">(</text>
+<rect class="on" x="479.0" y="384" width="47" height="47" rx="6"/>
+<text class="legend" x="485.0" y="398">k</text>
+<text class="action" x="502.5" y="418" text-anchor="middle">)</text>
+<rect class="on" x="531.0" y="384" width="47" height="47" rx="6"/>
+<text class="legend" x="537.0" y="398">l</text>
+<text class="action" x="554.5" y="418" text-anchor="middle">;</text>
+<rect class="key" x="583.0" y="384" width="47" height="47" rx="6"/>
+<text class="legend" x="589.0" y="398">;</text>
+<rect class="key" x="635.0" y="384" width="47" height="47" rx="6"/>
+<text class="legend" x="641.0" y="398">'</text>
+<rect class="key" x="687.0" y="384" width="112.0" height="47" rx="6"/>
+<text class="legend" x="693.0" y="398">return</text>
+<rect class="key" x="24" y="436" width="112.0" height="47" rx="6"/>
+<text class="legend" x="30" y="450">shift</text>
+<rect class="key" x="141.0" y="436" width="47" height="47" rx="6"/>
+<text class="legend" x="147.0" y="450">z</text>
+<rect class="key" x="193.0" y="436" width="47" height="47" rx="6"/>
+<text class="legend" x="199.0" y="450">x</text>
+<rect class="key" x="245.0" y="436" width="47" height="47" rx="6"/>
+<text class="legend" x="251.0" y="450">c</text>
+<rect class="key" x="297.0" y="436" width="47" height="47" rx="6"/>
+<text class="legend" x="303.0" y="450">v</text>
+<rect class="key" x="349.0" y="436" width="47" height="47" rx="6"/>
+<text class="legend" x="355.0" y="450">b</text>
+<rect class="key" x="401.0" y="436" width="47" height="47" rx="6"/>
+<text class="legend" x="407.0" y="450">n</text>
+<rect class="key" x="453.0" y="436" width="47" height="47" rx="6"/>
+<text class="legend" x="459.0" y="450">m</text>
+<rect class="key" x="505.0" y="436" width="47" height="47" rx="6"/>
+<text class="legend" x="511.0" y="450">,</text>
+<rect class="key" x="557.0" y="436" width="47" height="47" rx="6"/>
+<text class="legend" x="563.0" y="450">.</text>
+<rect class="key" x="609.0" y="436" width="47" height="47" rx="6"/>
+<text class="legend" x="615.0" y="450">/</text>
+<rect class="key" x="661.0" y="436" width="138.0" height="47" rx="6"/>
+<text class="legend" x="667.0" y="450">shift</text>
+<rect class="key" x="24" y="488" width="73.0" height="47" rx="6"/>
+<text class="legend" x="30" y="502">ctrl</text>
+<rect class="key" x="102.0" y="488" width="73.0" height="47" rx="6"/>
+<text class="legend" x="108.0" y="502">opt</text>
+<rect class="key" x="180.0" y="488" width="86.0" height="47" rx="6"/>
+<text class="legend" x="186.0" y="502">cmd</text>
+<rect class="key" x="271.0" y="488" width="333.0" height="47" rx="6"/>
+<text class="legend" x="277.0" y="502">space</text>
+<rect class="hold" x="609.0" y="488" width="86.0" height="47" rx="6"/>
+<text class="legend" x="615.0" y="502">cmd</text>
+<rect class="key" x="700.0" y="488" width="99" height="47" rx="6"/>
+<text class="legend" x="706.0" y="502">opt</text>
+</svg>

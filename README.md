@@ -36,6 +36,12 @@ brew upgrade
 `path:` skips git's ownership check (the repo belongs to my user, the rebuild
 runs as root), and `/private/etc` because `/etc` is a symlink.
 
+## Keyboard layers
+
+kanata layers from `config/kanata.kbd`, shown on QWERTY positions:
+
+![kanata nav and symbol layers](docs/kanata-layers.svg)
+
 ## Notes
 
 - **Apps:** GUI apps from nixpkgs land in `~/Applications/Home Manager Apps`.
