@@ -23,7 +23,7 @@
   tab       q    w    e    r    t    y    u    i    o    p    [    ]    \
   @cap      a    s    d    f    g    h    j    k    l    ;    '         ret
   lsft      z    x    c    v    b    n    m    ,    .    /    rsft
-  lctl lmet lalt           @spc                ralt rmet rctl
+  lctl lmet lalt           @spc                ralt @sym rctl
 )
 
 ;; Simply uncomment the Gallium version you wish to use.
@@ -35,7 +35,7 @@
   tab       b    l    d    c    v    j    y    o    u    ,    [    ]    \
   @cap      n    r    t    s    g    p    h    a    e    i    /         ret
   lsft      x    q    m    w    z    k    f    '    ;    .    rsft
-  lctl lmet lalt           @spc                ralt rmet rctl
+  lctl lmet lalt           @spc                ralt @sym rctl
 )|#
 
 ;; Gallium Rowstag (v2) -- ACTIVE: made for row-staggered keyboards like the MacBook's
@@ -45,7 +45,7 @@
   tab       b    l    d    c    v    j    f    o    u    ,    [    ]    \
   @cap      n    r    t    s    g    y    h    a    e    i    /         ret
   lsft      x    q    m    w    z    k    p    '    ;    .    rsft
-  lctl lmet lalt           @spc                ralt rmet rctl
+  lctl lmet lalt           @spc                ralt @sym rctl
 )
 
 ;; Gallium Colstag angle modded
@@ -55,7 +55,7 @@
   tab       b    l    d    c    z    j    y    o    u    ,    [    ]    \
   @cap      n    r    t    s    v    p    h    a    e    i    /         ret
   lsft      q    m    w    g    x    k    f    '    ;    .    rsft
-  lctl lmet lalt           @spc                ralt rmet rctl
+  lctl lmet lalt           @spc                ralt @sym rctl
 )|#
 
 ;; Gallium Colstag angle modded QX swap reversed
@@ -65,7 +65,7 @@
   tab       b    l    d    c    z    j    y    o    u    ,    [    ]    \
   @cap      n    r    t    s    v    p    h    a    e    i    /         ret
   lsft      x    m    w    g    q    k    f    '    ;    .    rsft
-  lctl lmet lalt           @spc                ralt rmet rctl
+  lctl lmet lalt           @spc                ralt @sym rctl
 )|#
 
 ;; Gallium Rowstag angle modded
@@ -75,7 +75,7 @@
   tab       b    l    d    c    z    j    f    o    u    ,    [    ]    \
   @cap      n    r    t    s    v    y    h    a    e    i    /         ret
   lsft      q    m    w    g    x    k    p    '    ;    .    rsft
-  lctl lmet lalt           @spc                ralt rmet rctl
+  lctl lmet lalt           @spc                ralt @sym rctl
 )|#
 
 ;; Gallium Rowstag angle modded QX swap reversed
@@ -85,7 +85,7 @@
   tab       b    l    d    c    z    j    f    o    u    ,    [    ]    \
   @cap      n    r    t    s    v    y    h    a    e    i    /         ret
   lsft      x    m    w    g    q    k    p    '    ;    .    rsft
-  lctl lmet lalt           @spc                ralt rmet rctl
+  lctl lmet lalt           @spc                ralt @sym rctl
 )|#
 
 (defalias
@@ -112,6 +112,9 @@
   ;; released while Space is down, so rolling into the next letter stays a space.
   ;; Tap then quickly hold Space to auto-repeat spaces.
   spc (tap-hold-release 200 200 spc (layer-while-held nav))
+
+  ;; Right Cmd: hold = symbol layer
+  sym (layer-while-held symbols)
 )
 
 ;; Hold ` then press (physical QWERTY positions):
@@ -129,15 +132,25 @@
 
 ;; Navigation layer (hold Space). Keys are physical QWERTY positions,
 ;; so they work the same in every layer.
-;;   y = Home   u = Page Down   i = Page Up   o = End
-;;   h j k l = arrows   ; = Backspace   ' = Delete
-;;   a s d f = Ctrl Option Cmd Shift (hold, combine with the keys above)
-;;   z x c v b = Undo Cut Copy Paste Redo
+;;   y = Page Up     u = Home   i = Up     o = End
+;;   h = Page Down   j = Left   k = Down   l = Right   ; = Backspace
 (deflayer nav
   _         _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    home pgdn pgup end  _    _    _    _
-  _    lctl lalt lmet lsft _    left down up   rght bspc del  _
-  _    M-z  M-x  M-c  M-v  M-S-z _   _    _    _    _    _
+  _    _    _    _    _    _    pgup home up   end  _    _    _    _
+  _    _    _    _    _    _    pgdn left down rght bspc _    _
+  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _
+)
+
+;; Symbol layer (hold Right Cmd). Physical QWERTY positions.
+;;   u = {   i = }   o = $
+;;   j = (   k = )   l = ;
+(deflayer symbols
+  _         _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    S-[  S-]  S-4  _    _    _    _
+  _    _    _    _    _    _    _    S-9  S-0  ;    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _              _              _    _    _
 )
