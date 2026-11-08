@@ -1,0 +1,5 @@
+#!/bin/sh
+# Regenerate the kanata layer diagram when its inputs are staged
+if git diff --cached --name-only | grep -qE '^(config/kanata\.kbd|scripts/kanata-layers\.py)$'; then
+  python3 scripts/kanata-layers.py && git add docs/kanata-layers.svg
+fi
