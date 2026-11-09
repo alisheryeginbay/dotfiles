@@ -405,6 +405,34 @@ in
     };
   };
 
+  # Espanso text expansion (installed by Homebrew in darwin.nix, so the
+  # Accessibility grant survives updates). JSON is valid YAML.
+  xdg.configFile."espanso/config/default.yml".text = builtins.toJSON { };
+  xdg.configFile."espanso/match/base.yml".text = builtins.toJSON {
+    matches = lib.mapAttrsToList (trigger: replace: { inherit trigger replace; }) {
+      ";web" = "https://yeginbay.com";
+      ";li" = "https://linkedin.com/in/yeginbay";
+      ";gh" = "https://github.com/alisheryeginbay";
+      ";em" = gitEmail;
+    };
+  };
+  launchd.agents.espanso = {
+    enable = true;
+    config = {
+      ProgramArguments = [
+        "/Applications/Espanso.app/Contents/MacOS/espanso"
+        "launcher"
+      ];
+      RunAtLoad = true;
+      KeepAlive = {
+        Crashed = true;
+        SuccessfulExit = false;
+      };
+      StandardOutPath = logPath "espanso";
+      StandardErrorPath = logPath "espanso";
+    };
+  };
+
   # AirPlay Receiver off; it listens on all interfaces.
   targets.darwin.currentHostDefaults."com.apple.controlcenter".AirplayReceiverEnabled = false;
 

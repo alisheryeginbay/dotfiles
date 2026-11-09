@@ -271,6 +271,7 @@ in
       }
       "secretive" # SSH keys in the Secure Enclave; must live in /Applications
       "raycast"
+      "espanso" # text expansion; config in home.nix
       "karabiner-elements" # provides the virtual HID driver kanata needs
 
       # browsers
