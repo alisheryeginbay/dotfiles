@@ -59,6 +59,10 @@ the config changes (enable once per clone: `git config core.hooksPath .githooks`
      `/Applications/.Karabiner-VirtualHIDDevice-Manager.app/Contents/MacOS/Karabiner-VirtualHIDDevice-Manager activate`,
      then allow it in General → Login Items & Extensions → Driver Extensions.
   4. Restart: `sudo launchctl kickstart -k system/org.nixos.kanata`.
+- **espanso:** text expansions (`;web`, `;li`, `;gh`, `;em`) are in
+  `home.nix`. The app is a Homebrew cask started by a home-manager launchd
+  agent. Grant it Accessibility once, and skip its own "start at login" or
+  service setup. Log: `~/Library/Logs/espanso.log`.
 - **Helium:** flags aren't managed here. Set by hand:
   `helium://flags/#omnibox-autocomplete-filtering` → search suggestions only.
 - **Profiles:** built into `/etc/mobileconfig`. macOS won't install them
