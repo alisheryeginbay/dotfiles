@@ -411,6 +411,7 @@ in
   xdg.configFile."espanso/match/base.yml".text = builtins.toJSON {
     matches = lib.mapAttrsToList (trigger: replace: { inherit trigger replace; }) {
       ";web" = "https://yeginbay.com";
+      ";lweb" = "https://yeginbay.localhost";
       ";li" = "https://linkedin.com/in/yeginbay";
       ";gh" = "https://github.com/alisheryeginbay";
       ";em" = gitEmail;
