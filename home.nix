@@ -414,7 +414,31 @@ in
       ";li" = "https://linkedin.com/in/yeginbay";
       ";gh" = "https://github.com/alisheryeginbay";
       ";em" = gitEmail;
-    };
+      ";x" = "https://x.com/alisheryeginbay";
+    } ++ [
+      {
+        trigger = ";date";
+        replace = "{{date}}";
+        vars = [
+          {
+            name = "date";
+            type = "date";
+            params.format = "%Y-%m-%d";
+          }
+        ];
+      }
+      {
+        trigger = ";ldate";
+        replace = "{{date}}";
+        vars = [
+          {
+            name = "date";
+            type = "date";
+            params.format = "%B %-d, %Y";
+          }
+        ];
+      }
+    ];
   };
   launchd.agents.espanso = {
     enable = true;
