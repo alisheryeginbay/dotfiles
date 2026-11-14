@@ -153,8 +153,6 @@ move = "Alt + Shift"
 
 # Resize
 "Alt + R" = { binding_mode = "resize" }
-"Alt + Shift + Equal" = { resize_window_grow = "smart" }
-"Alt + Shift + Minus" = { resize_window_shrink = "smart" }
 
 # Displays
 "Alt + Period" = { focus_display = "right" }
