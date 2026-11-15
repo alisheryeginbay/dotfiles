@@ -14,11 +14,31 @@ vim.lsp.config('knot', {
 })
 vim.lsp.enable 'knot'
 
+-- Vault for :Today etc. when Neovim isn't inside one.
+local default_vault = vim.fs.normalize '~/notes'
+
+-- The running knot client, or a new one for the current (or default) vault.
+local function knot_client()
+  local client = vim.lsp.get_clients({ bufnr = 0, name = 'knot' })[1] or vim.lsp.get_clients({ name = 'knot' })[1]
+  if client then
+    return client
+  end
+  local root = vim.fs.root(vim.fn.getcwd(), 'knot.toml') or default_vault
+  local id = vim.lsp.start(vim.tbl_extend('force', vim.lsp.config.knot, { root_dir = root }), { attach = false })
+  client = id and vim.lsp.get_client_by_id(id)
+  -- Commands only work once the server has initialized.
+  if client and vim.wait(5000, function()
+    return client.initialized
+  end) then
+    return client
+  end
+end
+
 -- :Today, :ThisWeek etc. open periodic notes via knot's commands.
 local function periodic(command, offset)
-  local client = vim.lsp.get_clients({ name = 'knot' })[1]
+  local client = knot_client()
   if not client then
-    return vim.notify('knot is not running; open a note first', vim.log.levels.WARN)
+    return vim.notify('knot failed to start', vim.log.levels.ERROR)
   end
   client:exec_cmd { title = command, command = command, arguments = { offset } }
 end
