@@ -11,6 +11,20 @@ return {
         end,
         desc = 'Toggle file explorer',
       },
+      {
+        '<leader>.',
+        function()
+          Snacks.scratch()
+        end,
+        desc = 'Toggle scratch buffer',
+      },
+      {
+        '<leader>S',
+        function()
+          Snacks.scratch.select()
+        end,
+        desc = 'Select scratch buffer',
+      },
     },
     opts = {
       image = {
@@ -20,6 +34,8 @@ return {
       },
       -- Sidebar file tree; oil handles directory buffers instead.
       explorer = { enabled = true, replace_netrw = false },
+      -- Persistent per-cwd scratch buffers in a float.
+      scratch = { enabled = true },
       picker = {
         sources = {
           -- show dotfiles and gitignored files
