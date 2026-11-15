@@ -25,6 +25,20 @@ return {
         end,
         desc = 'Select scratch buffer',
       },
+      {
+        '<leader>z',
+        function()
+          Snacks.zen()
+        end,
+        desc = 'Toggle zen mode',
+      },
+      {
+        '<leader>Z',
+        function()
+          Snacks.zen.zoom()
+        end,
+        desc = 'Toggle zoom',
+      },
     },
     opts = {
       image = {
@@ -36,6 +50,8 @@ return {
       explorer = { enabled = true, replace_netrw = false },
       -- Persistent per-cwd scratch buffers in a float.
       scratch = { enabled = true },
+      -- Centered distraction-free window; zoom just maximizes.
+      zen = { enabled = true },
       picker = {
         sources = {
           -- show dotfiles and gitignored files
