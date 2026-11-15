@@ -57,6 +57,18 @@ for name, args in pairs {
 end
 vim.keymap.set('n', '<leader>d', '<cmd>Today<cr>', { desc = "Today's daily note" })
 
+-- Show [[target|label]] as [[label]]; the cursor line still shows the target.
+vim.api.nvim_create_autocmd({ 'BufWinEnter', 'WinEnter', 'FileType' }, {
+  group = vim.api.nvim_create_augroup('knot-conceal', {}),
+  callback = function()
+    if vim.bo.filetype ~= 'markdown' or vim.w.knot_conceal then
+      return
+    end
+    vim.w.knot_conceal = vim.fn.matchadd('Conceal', [=[\[\[\zs[^]|]*|\ze[^]]*\]\]]=], 10, -1, { conceal = '' })
+    vim.wo.conceallevel = 2
+  end,
+})
+
 -- Nix and Lua (home.nix). nixd formats with nixfmt; Lua is formatted by
 -- stylua (.stylua.toml), so lua_ls's own formatter is off.
 vim.lsp.config('nixd', {
