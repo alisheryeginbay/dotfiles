@@ -286,7 +286,6 @@ in
       "lulu" # outbound firewall
 
       # tools
-      "ollama-app"
       "claude-code"
       "activitywatch" # nixpkgs build is linux-only
 
