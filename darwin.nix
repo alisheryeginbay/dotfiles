@@ -297,6 +297,7 @@ in
       WireGuard = 1451685025;
       "Apple Configurator" = 1037126344;
       Xcode = 497799835;
+      GarageBand = 682658836;
     };
   };
 }
