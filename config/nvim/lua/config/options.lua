@@ -58,3 +58,7 @@ vim.diagnostic.config {
     },
   },
 }
+
+-- MDX gets its own filetype, highlighted with the markdown parser.
+vim.filetype.add { extension = { mdx = 'mdx' } }
+vim.treesitter.language.register('markdown', 'mdx')
