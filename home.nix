@@ -321,7 +321,6 @@ in
           ${lib.getExe resticB2} backup --retry-lock 30m --exclude-caches \
             "$HOME/Documents" \
             "$HOME/flashcards" \
-            "$HOME/.local/share/plock"
         ''}"
       ];
       StartCalendarInterval = [
