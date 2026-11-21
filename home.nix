@@ -34,7 +34,7 @@ let
     };
     installPhase = "install -Dm644 *.ttf -t $out/share/fonts/truetype";
   };
-  logPath = name:"${config.home.homeDirectory}/Library/Logs/${name}.log";
+  logPath = name: "${config.home.homeDirectory}/Library/Logs/${name}.log";
   # Runs a shell command; on failure, posts a macOS notification pointing at the log.
   notifyOnFailure =
     name: cmd:
@@ -408,37 +408,39 @@ in
   # Accessibility grant survives updates). JSON is valid YAML.
   xdg.configFile."espanso/config/default.yml".text = builtins.toJSON { };
   xdg.configFile."espanso/match/base.yml".text = builtins.toJSON {
-    matches = lib.mapAttrsToList (trigger: replace: { inherit trigger replace; }) {
-      ";web" = "https://yeginbay.com";
-      ";lweb" = "https://yeginbay.localhost";
-      ";li" = "https://linkedin.com/in/yeginbay";
-      ";gh" = "https://github.com/alisheryeginbay";
-      ";em" = gitEmail;
-      ";x" = "https://x.com/alisheryeginbay";
-    } ++ [
-      {
-        trigger = ";date";
-        replace = "{{date}}";
-        vars = [
-          {
-            name = "date";
-            type = "date";
-            params.format = "%Y-%m-%d";
-          }
-        ];
+    matches =
+      lib.mapAttrsToList (trigger: replace: { inherit trigger replace; }) {
+        ";web" = "https://yeginbay.com";
+        ";lweb" = "https://yeginbay.localhost";
+        ";li" = "https://linkedin.com/in/yeginbay";
+        ";gh" = "https://github.com/alisheryeginbay";
+        ";em" = gitEmail;
+        ";x" = "https://x.com/alisheryeginbay";
       }
-      {
-        trigger = ";ldate";
-        replace = "{{date}}";
-        vars = [
-          {
-            name = "date";
-            type = "date";
-            params.format = "%B %-d, %Y";
-          }
-        ];
-      }
-    ];
+      ++ [
+        {
+          trigger = ";date";
+          replace = "{{date}}";
+          vars = [
+            {
+              name = "date";
+              type = "date";
+              params.format = "%Y-%m-%d";
+            }
+          ];
+        }
+        {
+          trigger = ";ldate";
+          replace = "{{date}}";
+          vars = [
+            {
+              name = "date";
+              type = "date";
+              params.format = "%B %-d, %Y";
+            }
+          ];
+        }
+      ];
   };
   launchd.agents.espanso = {
     enable = true;
