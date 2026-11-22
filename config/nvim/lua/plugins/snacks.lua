@@ -51,7 +51,11 @@ return {
       -- Persistent per-cwd scratch buffers in a float.
       scratch = { enabled = true },
       -- Centered distraction-free window; zoom just maximizes.
-      zen = { enabled = true },
+      zen = {
+        enabled = true,
+        -- Opaque backdrop in the Normal bg instead of a see-through black tint.
+        win = { backdrop = { transparent = false, blend = 99 } },
+      },
       picker = {
         sources = {
           -- show dotfiles and gitignored files
