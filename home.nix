@@ -23,6 +23,51 @@ let
     export RESTIC_PASSWORD_COMMAND="/usr/bin/security find-generic-password -s restic-b2 -a password -w"
     exec "/Library/Application Support/restic/restic" "$@"
   '';
+  # Health check for the restic agents; --deep also reads back 5% of the data.
+  backupStatus = pkgs.writeShellScriptBin "backup-status" ''
+    fail=0
+    ok() { printf '\033[32m✓\033[0m %s\n' "$1"; }
+    bad() { printf '\033[31m✗\033[0m %s\n' "$1"; fail=1; }
+
+    for agent in restic-backup restic-prune; do
+      info=$(launchctl print "gui/$(id -u)/org.nix-community.home.$agent" 2>/dev/null) \
+        || { bad "$agent: not loaded"; continue; }
+      code=$(printf '%s\n' "$info" | sed -n 's/^[[:space:]]*last exit code = //p')
+      case "$code" in
+        0) ok "$agent: last run exited 0" ;;
+        *never*) ok "$agent: loaded, not run since login" ;;
+        *) bad "$agent: last exit $code (see ~/Library/Logs/$agent.log)" ;;
+      esac
+    done
+
+    # Prune runs weekly; its log is rewritten each run.
+    plog="$HOME/Library/Logs/restic-prune.log"
+    if [ -f "$plog" ]; then
+      days=$(( ($(date +%s) - $(stat -f %m "$plog")) / 86400 ))
+      if [ "$days" -le 8 ]; then ok "prune/check: ran $days day(s) ago"; else bad "prune/check: last ran $days days ago"; fi
+    else
+      bad "prune/check: no log yet"
+    fi
+
+    latest=$(${lib.getExe resticB2} snapshots --latest 1 --json 2>&1) \
+      || { bad "repo: unreachable: $latest"; exit 1; }
+    ts=$(printf '%s' "$latest" | ${lib.getExe pkgs.jq} -r 'map(.time) | max // empty')
+    if [ -z "$ts" ]; then
+      bad "repo: no snapshots"
+    else
+      # 2026-11-22T12:00:03.123+01:00 -> 2026-11-22T12:00:03+0100
+      norm=$(printf '%s' "$ts" | sed -E 's/\.[0-9]+//; s/Z$/+00:00/; s/([+-][0-9]{2}):([0-9]{2})$/\1\2/')
+      age=$(( ($(date +%s) - $(date -j -f '%Y-%m-%dT%H:%M:%S%z' "$norm" +%s)) / 3600 ))
+      if [ "$age" -le 36 ]; then ok "latest snapshot: $age h ago"; else bad "latest snapshot: $age h ago"; fi
+    fi
+
+    if [ "''${1:-}" = "--deep" ]; then
+      echo "reading back 5% of repo data..."
+      if ${lib.getExe resticB2} check --read-data-subset=5%; then ok "deep check passed"; else bad "deep check failed"; fi
+    fi
+
+    exit $fail
+  '';
   aporeticNerdFont = pkgs.stdenvNoCC.mkDerivation {
     pname = "aporetic-nerd-font";
     version = "0-unstable-2025-10-14";
@@ -133,6 +178,7 @@ in
     # misc
     restic
     resticB2
+    backupStatus
     rage
     (buildGoModule rec {
       pname = "tle";
