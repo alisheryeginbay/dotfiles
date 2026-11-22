@@ -143,7 +143,6 @@ move = "Alt + Shift"
 # Containers
 "Alt + Comma" = "toggle_stack"
 "Alt + Slash" = "toggle_orientation"
-"Alt + Equal" = "balance"
 
 # Floating / fullscreen
 "Alt + Shift + Space" = { toggle_window_floating = { center = true } }
